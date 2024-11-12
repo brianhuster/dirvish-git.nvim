@@ -48,6 +48,7 @@ function M.init()
 	end
 
 	local status_list = get_status_list(current_dir)
+	vim.print('status list', status_list)
 	if #status_list == 0 then
 		return
 	end
