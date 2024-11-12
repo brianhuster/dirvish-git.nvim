@@ -71,7 +71,9 @@ function M.init()
 			file = vim.fn.fnamemodify(git_root .. sep .. file, ':p')
 			if M.config.git_icons then
 				local status = get_git_status(us, them)
+				print(status)
 				if status then
+					print(M.config.git_icons[status])
 					git_files[file] = M.config.git_icons[status]
 				end
 			end
@@ -101,18 +103,7 @@ function M.setup()
 			unknown = '?',
 		}
 	end
-	if bool(vim.fn.has('nvim')) then
-		vim.api.nvim_create_autocmd('FileType', {
-			pattern = 'dirvish',
-			callback = function()
-				vim.fn['dirvish#add_icon_fn'](M.add_icon)
-			end,
-		})
-	else
-		vim.command([[
-			autocmd FileType dirvish lua vim.fn['dirvish#add_icon_fn'](require('dirvish_git').add_icon)
-		]])
-	end
+	vim.fn['dirvish#add_icon_fn'](require('dirvish_git').add_icon)
 end
 
 return M
