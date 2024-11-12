@@ -85,7 +85,7 @@ function M.add_icon(file)
 	if not dict then
 		return ' '
 	end
-	return dict[file]
+	return dict[file] or ' '
 end
 
 function M.setup()
