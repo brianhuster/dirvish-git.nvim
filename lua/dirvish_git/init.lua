@@ -83,7 +83,7 @@ end
 function M.add_icon(file)
 	local dict = M.init()
 	if not dict then
-		return
+		return ' '
 	end
 	return dict[file]
 end
