@@ -82,6 +82,7 @@ end
 
 function M.add_icon(file)
 	local dict = M.init()
+	vim.print(dict)
 	if not dict then
 		return ' '
 	end
