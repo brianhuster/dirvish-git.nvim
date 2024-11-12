@@ -8,7 +8,8 @@ M.config = {}
 local sep = bool(vim.fn.exists('+shellslash')) and not bool(vim.o.shellslash) and '\\' or '/'
 
 local function get_git_root(current_dir)
-	return utils.system(('git -C %s rev-parse --show-toplevel'):format(current_dir))
+	local root = utils.system(('git -C %s rev-parse --show-toplevel'):format(current_dir))
+	return root and vim.trim(root) or nil
 end
 
 local function get_status_list(current_dir)

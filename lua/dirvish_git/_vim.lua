@@ -22,3 +22,5 @@ vim.o = setmetatable({}, {
 		vim.command('set ' .. k .. '=' .. v)
 	end,
 })
+
+vim.trim = vim.fn.trim
