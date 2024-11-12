@@ -83,25 +83,23 @@ function M.init()
 end
 
 function M.add_icon(file)
-	print("requested file", file)
 	local dict = M.init()
 	if not dict then
 		return ' '
 	end
-	print("result", dict[file])
 	return dict[file] or ' '
 end
 
 function M.setup()
 	if not M.config.git_icons then
 		M.config.git_icons = {
-			modified = '✎',
-			staged = '✚',
-			untracked = 'U',
+			modified = '🖋️',
+			staged = '✅',
+			untracked = '❔',
 			renamed = '➜',
-			unmerged = '✖',
-			ignored = '!',
-			unknown = '?',
+			unmerged = '❌',
+			ignored = '🙈',
+			unknown = '❓',
 		}
 	end
 	vim.fn['dirvish#add_icon_fn'](require('dirvish_git').add_icon)
