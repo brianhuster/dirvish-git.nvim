@@ -54,7 +54,7 @@ function M.init()
 	end
 
 	for _, item in ipairs(status_list) do
-		local data = { item:match('(%.)(%.)(%s)(.*)') }
+		local data = { item:match('(.)(.)%s(.*)') }
 		vim.print(data)
 		if #data > 0 then
 			local us = data[1]
