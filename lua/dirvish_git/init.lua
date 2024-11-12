@@ -71,9 +71,9 @@ function M.init()
 			file = vim.fn.fnamemodify(git_root .. sep .. file, ':p')
 			if M.config.git_icons then
 				local status = get_git_status(us, them)
-				print(status)
+				print("status", status)
 				if status then
-					print(M.config.git_icons[status])
+					print("M.config.git_icons[status]", M.config.git_icons[status])
 					git_files[file] = M.config.git_icons[status]
 				end
 			end
@@ -87,7 +87,7 @@ function M.add_icon(file)
 	if not dict then
 		return ' '
 	end
-	print(dict[file])
+	print("result", dict[file])
 	return dict[file] or ' '
 end
 
