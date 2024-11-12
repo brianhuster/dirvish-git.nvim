@@ -74,7 +74,6 @@ function M.init()
 				local status = get_git_status(us, them)
 				if status then
 					git_files[file] = M.config.git_icons[status]
-					vim.print(git_files)
 				end
 			end
 		end
@@ -90,9 +89,9 @@ function M.add_icon(file)
 	return dict[file] or ' '
 end
 
-function M.setup()
-	if not M.config.git_icons then
-		M.config.git_icons = {
+function M.setup(opts)
+	local default_opts = {
+		git_icons = {
 			modified = '🖋️',
 			staged = '✅',
 			untracked = '❔',
@@ -100,8 +99,9 @@ function M.setup()
 			unmerged = '❌',
 			ignored = '🙈',
 			unknown = '❓',
-		}
-	end
+		},
+	}
+	M.config = vim.tbl_deep_extend('force', default_opts, opts or {})
 	vim.fn['dirvish#add_icon_fn'](require('dirvish_git').add_icon)
 end
 
