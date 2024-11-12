@@ -7,17 +7,8 @@ M.config = {}
 
 local sep = bool(vim.fn.exists('+shellslash')) and not bool(vim.o.shellslash) and '\\' or '/'
 
-local escape_chars = '.#~' .. sep
-
 local function get_git_root(current_dir)
 	return utils.system(('git -C %s rev-parse --show-toplevel'):format(current_dir))
-end
-
-local function unmerged_status_comparator(a, b)
-	if a:match('^U') or a:match('^.U') then
-		return -1
-	end
-	return 1
 end
 
 local function get_status_list(current_dir)
@@ -26,8 +17,6 @@ local function get_status_list(current_dir)
 		return {}
 	end
 
-	-- Put unmerged first to get proper status on directories
-	table.sort(status, unmerged_status_comparator)
 	return status
 end
 
@@ -63,8 +52,6 @@ function M.init()
 		return
 	end
 
-	local dict = {}
-
 	for _, item in ipairs(status_list) do
 		local data = { item:match('(%.)(%.)(%s)(.*)') }
 		if #data > 0 then
@@ -85,12 +72,12 @@ function M.init()
 			if M.config.git_icons then
 				local status = get_git_status(us, them)
 				if status then
-					dict[file] = M.config.git_icons[status]
+					git_files[file] = M.config.git_icons[status]
 				end
 			end
 		end
 	end
-	return dict
+	return git_files
 end
 
 function M.add_icon(file)
