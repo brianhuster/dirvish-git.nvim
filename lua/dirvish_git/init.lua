@@ -17,12 +17,16 @@ end
 local function get_status_list(current_dir)
 	local status_list = {}
 	local files = vim.fn.glob(current_dir .. sep .. '*', true, true)
+	vim.print(files)
 	if #files == 0 then
 		return {}
 	end
 	for i = 1, #files do
 		local status = utils.system(('git status --porcelain --ignored %s'):format(files[i]))
+		print(status)
 		status = status and vim.trim(status)
+		print(status)
+		print("Status match fatal", status:match('^fatal'))
 		if status and not status:match('^fatal') then
 			table.insert(status_list, status)
 		end
