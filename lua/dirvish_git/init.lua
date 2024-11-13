@@ -26,7 +26,6 @@ local function get_status_list(current_dir)
 		print(status)
 		status = status and vim.trim(status)
 		print(status)
-		print("Status match fatal", status:match('^fatal'))
 		if status and not status:match('^fatal') then
 			table.insert(status_list, status)
 		end
@@ -63,6 +62,7 @@ function M.init()
 	end
 
 	local status_list = get_status_list(current_dir)
+	print('Current dir', current_dir)
 	vim.print(status_list)
 	if #status_list == 0 then
 		return
