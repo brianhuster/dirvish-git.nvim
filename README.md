@@ -27,6 +27,9 @@ Plug 'brianhuster/vim-dirvish-git.lua'
 ```
 
 # Configuration
+
+## Neovim 
+
 ```lua
 require('dirvish_git').setup({
     git_icons = {
@@ -40,13 +43,20 @@ require('dirvish_git').setup({
 	},
 })
 
-If you use Vimscript, you can wrap the above code in a `lua << EOF` block:
-
+## Vim
 ```vim
-lua << EOF
-require('dirvish_git').setup({
-    --- Configuration goes here
-})
+let g:dirvish_git_lua_config = {
+    \ 'git_icons': {
+    \     'modified': '🖋️',
+    \     'staged': '✅',
+    \     'untracked': '❔',
+    \     'renamed': '➜',
+    \     'unmerged': '❌',
+    \     'ignored': '🙈',
+    \     'unknown': '❓',
+    \ },
+    \}
+luaeval('require("dirvish_git").setup(_A)', g:dirvish_git_lua_config)
 ```
 
 # Contributing
