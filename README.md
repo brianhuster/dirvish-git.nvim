@@ -42,6 +42,7 @@ require('dirvish_git').setup({
         unknown = '❓',
 	},
 })
+```
 
 ## Vim
 
