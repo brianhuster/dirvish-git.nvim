@@ -17,15 +17,12 @@ end
 local function get_status_list(current_dir)
 	local status_list = {}
 	local files = vim.fn.glob(current_dir .. '*', true, true)
-	vim.print(files)
 	if #files == 0 then
 		return {}
 	end
 	for i = 1, #files do
 		local status = utils.system(('git status --porcelain --ignored %s'):format(files[i]))
-		print(status)
 		status = status and vim.trim(status)
-		print(status)
 		if status and not status:match('^fatal') then
 			table.insert(status_list, status)
 		end
@@ -62,7 +59,6 @@ function M.init()
 	end
 
 	local status_list = get_status_list(current_dir)
-	print('Current dir', current_dir)
 	vim.print(status_list)
 	if #status_list == 0 then
 		return
@@ -99,6 +95,7 @@ end
 
 function M.add_icon(file)
 	local dict = M.init()
+	vim.print(dict)
 	if not dict then
 		return ' '
 	end
