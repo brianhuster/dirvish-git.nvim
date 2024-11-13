@@ -1,7 +1,7 @@
 local utils = {}
 
 function utils.system(cmd)
-	local _, handle = pcall(io.popen, cmd)
+	local _, handle = pcall(io.popen, cmd .. " 2> ~/err.log")
 	if not handle then
 		return
 	end
