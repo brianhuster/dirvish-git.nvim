@@ -88,7 +88,10 @@ function M.add_icon(file)
 	if not dict then
 		return ' '
 	end
-	return dict[file] or ' '
+	if not dict[file] then
+		return file:sub(-1) == sep and '📂' or '📄'
+	end
+	return dict[file]
 end
 
 --- Set up the plugin
@@ -102,6 +105,8 @@ function M.setup(opts)
 		unmerged = '❌',
 		ignored = '🙈',
 		unknown = '❓',
+		file = '📄',
+		directory = '📂',
 	}
 	if not bool(vim.fn.has('nvim')) then
 		git_icons = vim.dict(git_icons)
@@ -114,7 +119,6 @@ function M.setup(opts)
 	else
 		M.config = vim.dict_deep_extend('force', vim.dict(default_opts), opts or vim.dict())
 	end
-	VimDirvishGitSet = true
 	vim.fn['dirvish#add_icon_fn'](require('dirvish_git').add_icon)
 end
 
