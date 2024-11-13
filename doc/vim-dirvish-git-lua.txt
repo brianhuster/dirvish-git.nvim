@@ -21,6 +21,8 @@ vim-dirvish-git <https://github.com/kristijanhusak/vim-dirvish-git> by
 Kristijan Husak.
 
 
+  Note: This plugin is still in development. Use at your own risk.
+
 ==============================================================================
 2. Installation                             *vim-dirvish-git-lua-installation*
 
@@ -51,6 +53,8 @@ Use your favorite plugin manager. Below are some examples :
 ==============================================================================
 3. Configuration                           *vim-dirvish-git-lua-configuration*
 
+Note: you can remove any of the icons by setting them to a space.
+
 
 LUA                                    *vim-dirvish-git-lua-configuration-lua*
 
@@ -66,6 +70,8 @@ This only works in Neovim
             unmerged = '❌',
             ignored = '🙈',
             unknown = '❓',
+            file = '📄',
+            directory = '📁',
         },
     })
 <
@@ -83,6 +89,8 @@ VIM9 SCRIPT                    *vim-dirvish-git-lua-configuration-vim9-script*
             unmerged: '❌',
             ignored: '🙈',
             unknown: '❓',
+            file: '📄',
+            directory: '📁',
         }
     }
     luaeval('require("dirvish_git").setup(_A)', dirvish_git_lua_config)
@@ -101,6 +109,8 @@ LEGACY VIM SCRIPT        *vim-dirvish-git-lua-configuration-legacy-vim-script*
         \     'unmerged': '❌',
         \     'ignored': '🙈',
         \     'unknown': '❓',
+        \     'file': '📄',
+        \     'directory': '📁',
         \ }
     \ }
     call luaeval('require("dirvish_git").setup(_A)', l:dirvish_git_lua_config)
