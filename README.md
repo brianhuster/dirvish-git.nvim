@@ -44,6 +44,7 @@ require('dirvish_git').setup({
 })
 
 ## Vim
+
 ```vim
 let g:dirvish_git_lua_config = {
     \ 'git_icons': {
