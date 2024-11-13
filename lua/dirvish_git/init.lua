@@ -21,6 +21,7 @@ local function get_status_list(current_dir)
 		return {}
 	end
 	for i = 1, #files do
+		print(('git status --porcelain --ignored %s'):format(files[i]))
 		local status = utils.system(('git status --porcelain --ignored %s'):format(files[i]))
 		status = status and vim.trim(status)
 		if status and not status:match('^fatal') then
