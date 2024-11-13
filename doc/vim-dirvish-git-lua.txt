@@ -65,11 +65,10 @@ This only works in Neovim
         git_icons = {
             modified = '🖋️',
             staged = '✅',
-            untracked = '❔',
             renamed = '➜',
             unmerged = '❌',
             ignored = '🙈',
-            unknown = '❓',
+            untracked = '❓',
             file = '📄',
             directory = '📁',
         },
@@ -84,11 +83,10 @@ VIM9 SCRIPT                    *vim-dirvish-git-lua-configuration-vim9-script*
         git_icons: {
             modified: '🖋️',
             staged: '✅',
-            untracked: '❔',
             renamed: '➜',
             unmerged: '❌',
             ignored: '🙈',
-            unknown: '❓',
+            untracked: '❓',
             file: '📄',
             directory: '📁',
         }
@@ -104,11 +102,10 @@ LEGACY VIM SCRIPT        *vim-dirvish-git-lua-configuration-legacy-vim-script*
         \ 'git_icons': {
         \     'modified': '🖋️',
         \     'staged': '✅',
-        \     'untracked': '❔',
         \     'renamed': '➜',
         \     'unmerged': '❌',
         \     'ignored': '🙈',
-        \     'unknown': '❓',
+        \     'untracked': '❓',
         \     'file': '📄',
         \     'directory': '📁',
         \ }
