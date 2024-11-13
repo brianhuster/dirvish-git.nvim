@@ -21,7 +21,6 @@ local function get_status_list(current_dir)
 		return {}
 	end
 	for i = 1, #files do
-		print(('git status --porcelain --ignored %s'):format(files[i]))
 		local status = utils.system(('git status --porcelain --ignored %s'):format(files[i]))
 		status = status and vim.trim(status)
 		if status and not status:match('^fatal') then
@@ -81,6 +80,7 @@ function M.init()
 			end
 
 			file = vim.fn.fnamemodify(git_root .. sep .. file, ':p')
+			print(file)
 			if M.config.git_icons then
 				local status = get_git_status(us, them)
 				if status then
@@ -99,7 +99,7 @@ function M.add_icon(file)
 		return ' '
 	end
 	if not dict[file] then
-		return file:sub(-1) == sep and '📂' or '📄'
+		return file:sub(-1) == sep and M.config.git_icons.directory or M.config.git_icons.file
 	end
 	return dict[file]
 end
@@ -111,7 +111,7 @@ function M.setup(opts)
 		modified = '🖋️',
 		staged = '✅',
 		untracked = '❔',
-		renamed = '➜',
+		renamed = '🔄',
 		unmerged = '❌',
 		ignored = '🙈',
 		unknown = '❓',
