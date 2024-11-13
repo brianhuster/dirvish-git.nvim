@@ -59,7 +59,7 @@ function M.init()
 	end
 
 	local status_list = get_status_list(current_dir)
-	print(status_list)
+	vim.print(status_list)
 	if #status_list == 0 then
 		return
 	end
