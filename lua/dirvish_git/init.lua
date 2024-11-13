@@ -16,6 +16,11 @@ local function get_git_root(current_dir)
 	return root and vim.trim(root) or nil
 end
 
+---@param dir string
+local function is_git_repo(dir)
+	return bool(vim.fn.isdirectory(dir .. sep .. '.git'))
+end
+
 ---@param us string
 ---@param them string
 local function translate_git_status(us, them)
@@ -43,7 +48,7 @@ local function get_git_status(path)
 		vim.b.git_root = get_git_root(current_dir)
 	else
 		local git_root = vim.b.git_root
-		if not bool(vim.fn.isdirectory(git_root .. sep .. '.git')) then
+		if not is_git_repo(git_root) then
 			vim.b.git_root = get_git_root(current_dir)
 		end
 	end
