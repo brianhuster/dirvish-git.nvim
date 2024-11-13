@@ -61,7 +61,7 @@ local function get_git_status(path)
 
 	local status
 	if not bool(vim.fn.isdirectory(path)) then
-		status = utils.systemlist(('git status --porcelain --no-ignored --no-untracked-files %s'):format(base_path))[1]
+		status = utils.systemlist(('git status --porcelain --ignored=no %s'):format(base_path))[1]
 	else
 		status = utils.systemlist(('git status --porcelain --ignored --renames %s'):format(base_path))[1]
 	end
