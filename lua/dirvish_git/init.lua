@@ -39,7 +39,15 @@ end
 ---@param path string
 local function get_git_status(path)
 	local current_dir = vim.fn.expand('%')
-	local git_root = get_git_root(current_dir)
+	if not vim.b.git_root then
+		vim.b.git_root = get_git_root(current_dir)
+	else
+		local git_root = vim.b.git_root
+		if not bool(vim.fn.isdirectory(git_root .. sep .. '.git')) then
+			vim.b.git_root = get_git_root(current_dir)
+		end
+	end
+	local git_root = vim.b.git_root
 	if not git_root then
 		return
 	end
