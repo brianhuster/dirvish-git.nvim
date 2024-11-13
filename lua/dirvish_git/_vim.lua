@@ -43,7 +43,7 @@ vim.dict_deep_extend = function(mode, dict1, dict2)
 end
 
 vim.deepdict = function(tbl)
-	for k, v in tbl do
+	for k, v in ipairs(tbl) do
 		if type(v) == "table" then
 			tbl[k] = vim.deepdict(v)
 		end
