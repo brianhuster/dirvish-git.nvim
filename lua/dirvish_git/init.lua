@@ -1,4 +1,4 @@
-require('dirvish_git._vim') 
+require('dirvish_git._vim')
 local utils = require('dirvish_git.utils')
 local bool = utils.bool
 
@@ -59,6 +59,7 @@ function M.init()
 	end
 
 	local status_list = get_status_list(current_dir)
+	print(status_list)
 	if #status_list == 0 then
 		return
 	end
