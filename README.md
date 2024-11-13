@@ -28,7 +28,9 @@ Plug 'brianhuster/vim-dirvish-git.lua'
 
 # Configuration
 
-## Neovim 
+## Lua
+
+This only works in Neovim
 
 ```lua
 require('dirvish_git').setup({
@@ -44,10 +46,27 @@ require('dirvish_git').setup({
 })
 ```
 
-## Vim
+## Vim9 script
 
 ```vim
-let g:dirvish_git_lua_config = {
+var dirvish_git_lua_config = {
+    git_icons: {
+        modified: '🖋️',
+        staged: '✅',
+        untracked: '❔',
+        renamed: '➜',
+        unmerged: '❌',
+        ignored: '🙈',
+        unknown: '❓',
+    }
+}
+luaeval('require("dirvish_git").setup(_A)', dirvish_git_lua_config)
+```
+
+## Legacy Vim script
+
+```vim
+let l:dirvish_git_lua_config = {
     \ 'git_icons': {
     \     'modified': '🖋️',
     \     'staged': '✅',
@@ -56,9 +75,9 @@ let g:dirvish_git_lua_config = {
     \     'unmerged': '❌',
     \     'ignored': '🙈',
     \     'unknown': '❓',
-    \ },
-    \}
-luaeval('require("dirvish_git").setup(_A)', g:dirvish_git_lua_config)
+    \ }
+\ }
+call luaeval('require("dirvish_git").setup(_A)', l:dirvish_git_lua_config)
 ```
 
 # Contributing
