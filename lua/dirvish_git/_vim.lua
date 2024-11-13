@@ -27,7 +27,7 @@ vim.trim = vim.fn.trim
 
 vim.dict_deep_extend = function(mode, dict1, dict2)
 	local function merge(mode, d1, d2)
-		for k, v in pairs(d2) do
+		for k, v in d2() do
 			if vim.type(v) == "dict" and vim.type(d1[k]) == "dict" then
 				merge(d1[k], v)
 			else
