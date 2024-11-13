@@ -59,14 +59,12 @@ function M.init()
 	end
 
 	local status_list = get_status_list(current_dir)
-	vim.print(status_list)
 	if #status_list == 0 then
 		return
 	end
 
 	for _, item in ipairs(status_list) do
 		local data = { item:match('(.)(.)%s(.*)') }
-		vim.print(data)
 		if #data > 0 then
 			local us = data[1]
 			local them = data[2]
@@ -95,11 +93,7 @@ end
 
 function M.add_icon(file)
 	local dict = M.init()
-	vim.print(dict)
-	if not dict then
-		return ' '
-	end
-	if not dict[file] then
+	if not dict or not dict[file] then
 		return file:sub(-1) == sep and M.config.git_icons.directory or M.config.git_icons.file
 	end
 	return dict[file]
