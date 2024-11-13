@@ -15,12 +15,20 @@ local function get_git_root(current_dir)
 end
 
 local function get_status_list(current_dir)
-	local status = utils.systemlist(('git status --porcelain --ignored %s'):format(current_dir))
-	if #status == 0 or (#status == 1 and status[1]:match('^fatal')) then
+	local status_list = {}
+	local files = vim.split(vim.fn.glob(current_dir .. sep .. '*', true, true), '\n')
+	if #files == 0 then
 		return {}
 	end
+	for i = 1, #files do
+		local status = utils.system(('git status --porcelain --ignored %s'):format(files[i]))
+		status = status and vim.trim(status)
+		if status and not status:match('^fatal') then
+			table.insert(status_list, status)
+		end
+	end
 
-	return status
+	return status_list
 end
 
 local function get_git_status(us, them)

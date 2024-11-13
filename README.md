@@ -1,6 +1,8 @@
 # Introduction
 [vim-dirvish-git.lua](https://github.com/brianhuster/vim-dirvish-git.lua) is a plugin for Vim 8+ and Neovim that provides Gitsigns integration for [vim-dirvish](https://github.com/justinmk/vim-dirvish) by Justin M. Keyes. Inspired by [vim-dirvish-git](https://github.com/kristijanhusak/vim-dirvish-git) by Kristijan Husak.
 
+> Note: This plugin is still in development. Use at your own risk.
+
 # Installation
 This plugin requires :
 - A Vim 8.2.1054+ with `+lua` feature or Neovim 0.5.0+.
@@ -28,6 +30,8 @@ Plug 'brianhuster/vim-dirvish-git.lua'
 
 # Configuration
 
+Note: you can remove any of the icons by setting them to a space.
+
 ## Lua
 
 This only works in Neovim
@@ -42,6 +46,8 @@ require('dirvish_git').setup({
         unmerged = '❌',
         ignored = '🙈',
         unknown = '❓',
+        file = '📄',
+        directory = '📁',
 	},
 })
 ```
@@ -58,6 +64,8 @@ var dirvish_git_lua_config = {
         unmerged: '❌',
         ignored: '🙈',
         unknown: '❓',
+        file: '📄',
+        directory: '📁',
     }
 }
 luaeval('require("dirvish_git").setup(_A)', dirvish_git_lua_config)
@@ -75,6 +83,8 @@ let l:dirvish_git_lua_config = {
     \     'unmerged': '❌',
     \     'ignored': '🙈',
     \     'unknown': '❓',
+    \     'file': '📄',
+    \     'directory': '📁',
     \ }
 \ }
 call luaeval('require("dirvish_git").setup(_A)', l:dirvish_git_lua_config)

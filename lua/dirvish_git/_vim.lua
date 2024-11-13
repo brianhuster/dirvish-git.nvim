@@ -24,6 +24,7 @@ vim.o = setmetatable({}, {
 })
 
 vim.trim = vim.fn.trim
+vim.split = vim.fn.split
 
 vim.dict_deep_extend = function(mode, dict1, dict2)
 	local function merge(mode, d1, d2)
