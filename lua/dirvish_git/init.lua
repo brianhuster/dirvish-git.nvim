@@ -7,31 +7,18 @@ M.config = {}
 
 ---@class dict
 
+---@type string
 local sep = bool(vim.fn.exists('+shellslash')) and not bool(vim.o.shellslash) and '\\' or '/'
 
+---@param current_dir string
 local function get_git_root(current_dir)
 	local root = utils.system(('git -C %s rev-parse --show-toplevel'):format(current_dir))
 	return root and vim.trim(root) or nil
 end
 
-local function get_status_list(current_dir)
-	local status_list = {}
-	local files = vim.fn.glob(current_dir .. '*', true, true)
-	if #files == 0 then
-		return {}
-	end
-	for i = 1, #files do
-		local status = utils.systemlist(('git status --porcelain --ignored %s'):format(files[i]))
-		status = status and status[1]
-		if status and not status:match('^fatal') then
-			table.insert(status_list, status)
-		end
-	end
-
-	return status_list
-end
-
-local function get_git_status(us, them)
+---@param us string
+---@param them string
+local function translate_git_status(us, them)
 	if us == '?' and them == '?' then
 		return 'untracked'
 	elseif us == ' ' and them == 'M' then
@@ -49,54 +36,47 @@ local function get_git_status(us, them)
 	end
 end
 
-
-function M.init()
-	local git_files = {}
+---@param path string
+local function get_git_status(path)
 	local current_dir = vim.fn.expand('%')
 	local git_root = get_git_root(current_dir)
 	if not git_root then
 		return
 	end
+	utils.system('cd ' .. git_root)
+	local base_path = path:sub(#git_root + 2)
 
-	local status_list = get_status_list(current_dir)
-	if #status_list == 0 then
+	local status
+	if not bool(vim.fn.isdirectory(path)) then
+		status = utils.systemlist(('git status --porcelain %s'):format(base_path))[1]
+	else
+		status = utils.systemlist(('git status --porcelain --ignored %s'):format(base_path))[1]
+	end
+	if not status then
 		return
 	end
-
-	for _, item in ipairs(status_list) do
-		local data = { item:match('(.)(.)%s(.*)') }
-		if #data > 0 then
-			local us = data[1]
-			local them = data[2]
-			local file = data[3]
-			if file:find(' ') and file:sub(1, 1) == '"' then
-				file = file:match('^"(.*)"$')
-			end
-
-			-- Rename status returns both old and new filename "old_name.ext -> new_name.ext"
-			-- but only new name is needed here
-			if us == 'R' then
-				file = (file:match(' -> (.*)') or file)
-			end
-
-			file = vim.fn.fnamemodify(git_root .. sep .. file, ':p')
-			if M.config.git_icons then
-				local status = get_git_status(us, them)
-				if status then
-					git_files[file] = M.config.git_icons[status]
-				end
-			end
-		end
+	local data = { status:match('(.)(.)%s(.*)') }
+	if #data > 0 then
+		local us, them = data[1], data[2]
+		return translate_git_status(us, them)
 	end
-	return git_files
 end
 
+---@param path string
+local function get_git_icon(path)
+	local status = get_git_status(path)
+	if status then
+		return M.config.git_icons[status]
+	end
+end
+
+---@param file string
 function M.add_icon(file)
-	local dict = M.init()
-	if not dict or not dict[file] then
+	local git_icon = get_git_icon(file)
+	if not git_icon then
 		return file:sub(-1) == sep and M.config.git_icons.directory or M.config.git_icons.file
 	end
-	return dict[file]
+	return git_icon
 end
 
 --- Set up the plugin
