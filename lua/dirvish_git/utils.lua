@@ -1,7 +1,7 @@
 local utils = {}
 
 function utils.system(cmd)
-	local handle = io.popen(cmd)
+	local _, handle = pcall(io.popen, cmd)
 	if not handle then
 		return
 	end
