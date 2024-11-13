@@ -98,11 +98,10 @@ function M.setup(opts)
 	local git_icons = {
 		modified = '🖋️',
 		staged = '✅',
-		untracked = '❔',
+		untracked = '❓',
 		renamed = '🔄',
 		unmerged = '❌',
 		ignored = '🙈',
-		unknown = '❓',
 		file = '📄',
 		directory = '📂',
 	}
