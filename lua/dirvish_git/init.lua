@@ -94,21 +94,25 @@ end
 --- Set up the plugin
 ---@param opts table|dict: The options to set up the plugin. Being a table if you use Nvim, and a dictionary if you use Vim.
 function M.setup(opts)
+	local git_icons = {
+		modified = '🖋️',
+		staged = '✅',
+		untracked = '❔',
+		renamed = '➜',
+		unmerged = '❌',
+		ignored = '🙈',
+		unknown = '❓',
+	}
+	if not bool(vim.fn.has('nvim')) then
+		git_icons = vim.dict(git_icons)
+	end
 	local default_opts = {
-		git_icons = {
-			modified = '🖋️',
-			staged = '✅',
-			untracked = '❔',
-			renamed = '➜',
-			unmerged = '❌',
-			ignored = '🙈',
-			unknown = '❓',
-		},
+		git_icons = git_icons,
 	}
 	if bool(vim.fn.has('nvim')) then
 		M.config = vim.tbl_deep_extend('force', default_opts, opts or {})
 	else
-		M.config = vim.dict_deep_extend('force', vim.deepdict(default_opts), opts or vim.dict())
+		M.config = vim.dict_deep_extend('force', vim.dict(default_opts), opts or vim.dict())
 	end
 	VimDirvishGitSet = true
 	vim.fn['dirvish#add_icon_fn'](require('dirvish_git').add_icon)
