@@ -16,7 +16,7 @@ end
 
 local function get_status_list(current_dir)
 	local status_list = {}
-	local files = vim.fn.glob(current_dir .. sep .. '*', true, true)
+	local files = vim.fn.glob(current_dir .. '*', true, true)
 	vim.print(files)
 	if #files == 0 then
 		return {}
