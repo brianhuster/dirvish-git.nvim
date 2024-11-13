@@ -66,6 +66,7 @@ function M.init()
 
 	for _, item in ipairs(status_list) do
 		local data = { item:match('(.)(.)%s(.*)') }
+		vim.print(data)
 		if #data > 0 then
 			local us = data[1]
 			local them = data[2]
@@ -81,7 +82,6 @@ function M.init()
 			end
 
 			file = vim.fn.fnamemodify(git_root .. sep .. file, ':p')
-			print(file)
 			if M.config.git_icons then
 				local status = get_git_status(us, them)
 				if status then
