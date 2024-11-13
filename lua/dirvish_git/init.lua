@@ -1,4 +1,4 @@
-require('dirvish_git._vim')
+require('dirvish_git._vim') 
 local utils = require('dirvish_git.utils')
 local bool = utils.bool
 
@@ -94,7 +94,6 @@ end
 
 function M.add_icon(file)
 	local dict = M.init()
-	vim.print(dict)
 	if not dict then
 		return ' '
 	end
