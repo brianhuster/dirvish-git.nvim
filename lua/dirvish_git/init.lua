@@ -108,7 +108,7 @@ function M.setup(opts)
 	if bool(vim.fn.has('nvim')) then
 		M.config = vim.tbl_deep_extend('force', default_opts, opts or {})
 	else
-		M.config = vim.dict_deep_extend('force', vim.dict(default_opts), opts or vim.dict())
+		M.config = vim.dict_deep_extend('force', vim.deepdict(default_opts), opts or vim.dict())
 	end
 	VimDirvishGitSet = true
 	vim.fn['dirvish#add_icon_fn'](require('dirvish_git').add_icon)
