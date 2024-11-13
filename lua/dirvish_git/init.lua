@@ -5,6 +5,8 @@ local bool = utils.bool
 local M = {}
 M.config = {}
 
+---@class dict
+
 local sep = bool(vim.fn.exists('+shellslash')) and not bool(vim.o.shellslash) and '\\' or '/'
 
 local function get_git_root(current_dir)
@@ -89,6 +91,8 @@ function M.add_icon(file)
 	return dict[file] or ' '
 end
 
+--- Set up the plugin
+---@param opts table|dict: The options to set up the plugin. Being a table if you use Nvim, and a dictionary if you use Vim.
 function M.setup(opts)
 	local default_opts = {
 		git_icons = {
@@ -101,7 +105,12 @@ function M.setup(opts)
 			unknown = '❓',
 		},
 	}
-	M.config = vim.tbl_deep_extend('force', default_opts, opts or {})
+	if bool(vim.fn.has('nvim')) then
+		M.config = vim.tbl_deep_extend('force', default_opts, opts or {})
+	else
+		M.config = vim.dict_deep_extend('force', vim.dict(default_opts), opts or vim.dict())
+	end
+	VimDirvishGitSet = true
 	vim.fn['dirvish#add_icon_fn'](require('dirvish_git').add_icon)
 end
 
