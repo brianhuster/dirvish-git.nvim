@@ -64,7 +64,7 @@ local function get_git_status(path)
 		local status_msg = stdout[1]
 		local data = { status_msg:match('(.)(.)%s(.*)') }
 		if not data then
-			M.cache[path] = ''
+			M.cache[path] = nil
 			return
 		end
 		if #data > 0 then
