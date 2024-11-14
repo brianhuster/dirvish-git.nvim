@@ -26,4 +26,21 @@ function utils.bool(any)
 	return any and any ~= 0
 end
 
+function utils.async_system(cmd, callback)
+	if utils.bool(vim.fn.has('nvim')) then
+		vim.fn.jobstart(cmd, {
+			on_stdout = function(_, data, _)
+				callback(data)
+			end,
+		})
+	else
+		vim.fn.job_start(cmd, {
+			out_cb = function(_, data)
+				data = vim.split(data, '\n')
+				callback(data)
+			end
+		})
+	end
+end
+
 return utils
