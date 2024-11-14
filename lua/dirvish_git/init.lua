@@ -69,7 +69,6 @@ local function get_git_status(path)
 			local status = translate_git_status(us, them)
 			if M.config.git_icons then
 				M.cache[path] = M.config.git_icons[status]
-				vim.print('Cache:', vim.inspect(M.cache))
 				if vim.bo.filetype == 'dirvish' then
 					vim.fn['dirvish#apply_icons']()
 				end
@@ -91,12 +90,20 @@ end
 
 ---@param file string
 function M.add_icon(file)
-	get_git_status(file)
 	local git_icon = M.cache[file]
 	if not git_icon then
 		return file:sub(-1) == sep and M.config.git_icons.directory or M.config.git_icons.file
 	end
 	return git_icon
+end
+
+function M.init()
+	local current_dir = vim.fn.expand('%')
+	local files = vim.fn.glob(current_dir .. sep .. '*', true, true)
+	for i = 1, #files do
+		local file = files[i]
+		get_git_status(file)
+	end
 end
 
 --- Set up the plugin
