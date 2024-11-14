@@ -5,7 +5,7 @@ local bool = utils.bool
 local M = {}
 M.config = {}
 
-local cache = {}
+M.cache = {}
 
 ---@class dict
 
@@ -71,7 +71,7 @@ local function get_git_status(path)
 			local us, them = data[1], data[2]
 			local status = translate_git_status(us, them)
 			if M.config.git_icons then
-				cache[path] = M.config.git_icons[status]
+				M.cache[path] = M.config.git_icons[status]
 				vim.fn['dirvish#apply_icons']()
 			end
 		end
@@ -92,7 +92,7 @@ end
 ---@param file string
 function M.add_icon(file)
 	get_git_status(file)
-	local git_icon = cache[file]
+	local git_icon = M.cache[file]
 	if not git_icon then
 		return file:sub(-1) == sep and M.config.git_icons.directory or M.config.git_icons.file
 	end
