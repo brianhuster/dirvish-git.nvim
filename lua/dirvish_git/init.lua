@@ -70,7 +70,9 @@ local function get_git_status(path)
 			if M.config.git_icons then
 				M.cache[path] = M.config.git_icons[status]
 				vim.print('Cache:', vim.inspect(M.cache))
-				vim.fn['dirvish#apply_icons']()
+				if vim.bo.filetype == 'dirvish' then
+					vim.fn['dirvish#apply_icons']()
+				end
 			end
 		end
 	end
