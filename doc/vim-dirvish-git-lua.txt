@@ -3,15 +3,19 @@
 ==============================================================================
 Table of Contents                      *vim-dirvish-git-lua-table-of-contents*
 
-1. Installation                             |vim-dirvish-git-lua-installation|
-2. Configuration                           |vim-dirvish-git-lua-configuration|
+1. Introduction                             |vim-dirvish-git-lua-introduction|
+2. Installation                             |vim-dirvish-git-lua-installation|
+3. Configuration                           |vim-dirvish-git-lua-configuration|
   - Lua                                |vim-dirvish-git-lua-configuration-lua|
   - Vim9 script                |vim-dirvish-git-lua-configuration-vim9-script|
   - Legacy Vim script    |vim-dirvish-git-lua-configuration-legacy-vim-script|
-3. Contributing                             |vim-dirvish-git-lua-contributing|
-# Introduction vim-dirvish-git.lua
-<https://github.com/brianhuster/vim-dirvish-git.lua> is a plugin for Vim 8+ and
-Neovim that provides Gitsigns integration for vim-dirvish
+4. Contributing                             |vim-dirvish-git-lua-contributing|
+
+==============================================================================
+1. Introduction                             *vim-dirvish-git-lua-introduction*
+
+vim-dirvish-git.lua <https://github.com/brianhuster/vim-dirvish-git.lua> is a
+plugin for Vim 8+ and Neovim that provides Gitsigns integration for vim-dirvish
 <https://github.com/justinmk/vim-dirvish> by Justin M. Keyes. Inspired by
 vim-dirvish-git <https://github.com/kristijanhusak/vim-dirvish-git> by
 Kristijan Husak.
@@ -20,7 +24,7 @@ Kristijan Husak.
   Note: This plugin is still in development. Use at your own risk.
 
 ==============================================================================
-1. Installation                             *vim-dirvish-git-lua-installation*
+2. Installation                             *vim-dirvish-git-lua-installation*
 
 This plugin requires : - A Vim 8.2.1054+ with `+lua` feature or Neovim 0.5.0+.
 - Dependencies: vim-dirvish <https://github.com/justinmk/vim-dirvish>
@@ -47,7 +51,7 @@ Use your favorite plugin manager. Below are some examples :
 
 
 ==============================================================================
-2. Configuration                           *vim-dirvish-git-lua-configuration*
+3. Configuration                           *vim-dirvish-git-lua-configuration*
 
 Note: you can remove any of the icons by setting them to a space.
 
@@ -111,7 +115,7 @@ LEGACY VIM SCRIPT        *vim-dirvish-git-lua-configuration-legacy-vim-script*
 
 
 ==============================================================================
-3. Contributing                             *vim-dirvish-git-lua-contributing*
+4. Contributing                             *vim-dirvish-git-lua-contributing*
 
 If you have any suggestions, bug reports, or contributions, please feel free to
 open an issue or a pull request.
