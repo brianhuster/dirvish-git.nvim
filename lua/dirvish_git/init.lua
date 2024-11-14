@@ -63,6 +63,10 @@ local function get_git_status(path)
 	local callback = function(stdout)
 		local status_msg = stdout[1]
 		local data = { status_msg:match('(.)(.)%s(.*)') }
+		if not data then
+			M.cache[path] = ''
+			return
+		end
 		if #data > 0 then
 			local us, them = data[1], data[2]
 			local status = translate_git_status(us, them)
