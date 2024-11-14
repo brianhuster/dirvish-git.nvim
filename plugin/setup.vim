@@ -12,7 +12,8 @@ if exists('g:dirvish_relative_path') && g:dirvish_relative_path == 1
 	finish
 endif
 if !luaeval('VimDirvishGitSet')
-	autocmd FileType dirvish lua require("dirvish_git").init()
 	lua require('dirvish_git').setup()
 endif
+
+autocmd FileType dirvish lua require("dirvish_git").init()
 
