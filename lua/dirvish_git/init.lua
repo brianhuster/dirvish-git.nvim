@@ -61,10 +61,7 @@ local function get_git_status(path)
 	utils.system('cd ' .. git_root)
 	local base_path = path:sub(#git_root + 2)
 
-	local callback = function(_, stdout)
-		if not stdout then
-			return
-		end
+	local callback = function(stdout)
 		local status_msg = stdout[1]
 		local data = { status_msg:match('(.)(.)%s(.*)') }
 		if #data > 0 then
