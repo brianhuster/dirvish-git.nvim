@@ -64,15 +64,18 @@ local function get_git_status(path)
 	local callback = function(stdout)
 		local status_msg = stdout[1]
 		local data = { status_msg:match('(.)(.)%s(.*)') }
+		vim.print(data)
 		if #data > 0 then
 			local us, them = data[1], data[2]
 			local status = translate_git_status(us, them)
+			print('status', status)
 			if M.config.git_icons then
 				M.cache[path] = M.config.git_icons[status]
 				if vim.bo.filetype == 'dirvish' then
 					vim.fn['dirvish#apply_icons']()
 				end
 			end
+			vim.print(M.cache)
 		end
 	end
 
