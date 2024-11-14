@@ -76,15 +76,10 @@ local function get_git_status(path)
 		end
 	end
 
-
-	local status
 	if not bool(vim.fn.isdirectory(path)) then
 		utils.async_system(('git status --porcelain --ignored=no %s'):format(base_path), callback)
 	else
 		utils.async_system(('git status --porcelain --ignored --renames %s'):format(base_path), callback)
-	end
-	if not status then
-		return
 	end
 end
 
@@ -100,6 +95,7 @@ end
 function M.init()
 	local current_dir = vim.fn.expand('%')
 	local files = vim.fn.glob(current_dir .. sep .. '*', true, true)
+	vim.print('files', files)
 	for i = 1, #files do
 		local file = files[i]
 		get_git_status(file)
