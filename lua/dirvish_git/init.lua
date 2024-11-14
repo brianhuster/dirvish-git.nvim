@@ -66,7 +66,6 @@ local function get_git_status(path)
 		if #data > 0 then
 			local us, them = data[1], data[2]
 			local status = translate_git_status(us, them)
-			print('status', status)
 			if M.config.git_icons then
 				M.cache[path] = M.config.git_icons[status]
 				if vim.bo.filetype == 'dirvish' then
@@ -79,6 +78,7 @@ local function get_git_status(path)
 	if not bool(vim.fn.isdirectory(path)) then
 		utils.async_system(('git status --porcelain --ignored=no %s'):format(base_path), callback)
 	else
+		path = path .. sep
 		utils.async_system(('git status --porcelain --ignored --renames %s'):format(base_path), callback)
 	end
 end
