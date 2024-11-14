@@ -58,13 +58,11 @@ local function get_git_status(path)
 	if not git_root then
 		return
 	end
-	utils.system('cd ' .. git_root)
 	local base_path = path:sub(#git_root + 2)
 
 	local callback = function(stdout)
 		local status_msg = stdout[1]
 		local data = { status_msg:match('(.)(.)%s(.*)') }
-		vim.print(data)
 		if #data > 0 then
 			local us, them = data[1], data[2]
 			local status = translate_git_status(us, them)
@@ -75,7 +73,6 @@ local function get_git_status(path)
 					vim.fn['dirvish#apply_icons']()
 				end
 			end
-			vim.print(M.cache)
 		end
 	end
 
@@ -98,7 +95,6 @@ end
 function M.init()
 	local current_dir = vim.fn.expand('%')
 	local files = vim.fn.glob(current_dir .. '*', true, true)
-	vim.print('files', files)
 	for i = 1, #files do
 		local file = files[i]
 		get_git_status(file)

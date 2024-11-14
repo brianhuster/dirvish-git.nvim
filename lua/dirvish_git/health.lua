@@ -1,4 +1,4 @@
-local M = {} 
+ local M = {} 
 
 local health = vim.health
 local bool = require('dirvish_git.utils').bool
