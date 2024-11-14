@@ -69,7 +69,7 @@ local function get_git_status(path)
 			local status = translate_git_status(us, them)
 			if M.config.git_icons[status] then
 				cache[path] = M.config.git_icons[status]
-				vim.fn('dirvish#apply_icons')
+				vim.fn['dirvish#apply_icons']()
 			end
 		end
 	end
