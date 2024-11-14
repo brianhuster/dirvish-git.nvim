@@ -5,6 +5,8 @@ local bool = utils.bool
 local M = {}
 M.config = {}
 
+local cache = {}
+
 ---@class dict
 
 ---@type string
@@ -59,33 +61,35 @@ local function get_git_status(path)
 	utils.system('cd ' .. git_root)
 	local base_path = path:sub(#git_root + 2)
 
+	local callback = function(_, stdout)
+		local status_msg = stdout[1]
+		local data = { status_msg:match('(.)(.)%s(.*)') }
+		if #data > 0 then
+			local us, them = data[1], data[2]
+			local status = translate_git_status(us, them)
+			if M.config.git_icons[status] then
+				cache[path] = M.config.git_icons[status]
+				vim.fn('dirvish#apply_icons')
+			end
+		end
+	end
+
+
 	local status
 	if not bool(vim.fn.isdirectory(path)) then
-		status = utils.systemlist(('git status --porcelain --ignored=no %s'):format(base_path))[1]
+		utils.async_system(('git status --porcelain --ignored=no %s'):format(base_path), callback)
 	else
-		status = utils.systemlist(('git status --porcelain --ignored --renames %s'):format(base_path))[1]
+		utils.async_system(('git status --porcelain --ignored --renames %s'):format(base_path), callback)
 	end
 	if not status then
 		return
-	end
-	local data = { status:match('(.)(.)%s(.*)') }
-	if #data > 0 then
-		local us, them = data[1], data[2]
-		return translate_git_status(us, them)
-	end
-end
-
----@param path string
-local function get_git_icon(path)
-	local status = get_git_status(path)
-	if status then
-		return M.config.git_icons[status]
 	end
 end
 
 ---@param file string
 function M.add_icon(file)
-	local git_icon = get_git_icon(file)
+	get_git_status(file)
+	local git_icon = cache[file]
 	if not git_icon then
 		return file:sub(-1) == sep and M.config.git_icons.directory or M.config.git_icons.file
 	end
