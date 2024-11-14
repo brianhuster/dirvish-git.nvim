@@ -97,7 +97,7 @@ end
 
 function M.init()
 	local current_dir = vim.fn.expand('%')
-	local files = vim.fn.glob(current_dir .. sep .. '*', true, true)
+	local files = vim.fn.glob(current_dir .. '*', true, true)
 	vim.print('files', files)
 	for i = 1, #files do
 		local file = files[i]
