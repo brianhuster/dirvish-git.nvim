@@ -21,12 +21,14 @@ vim-dirvish-git <https://github.com/kristijanhusak/vim-dirvish-git> by
 Kristijan Husak.
 
 
-  Note: This plugin is still in development. Use at your own risk.
+  :warning: For now, this plugin only works with `brianhuster`’s fork of
+  `vim-dirvish`. Please replace `justinmk/vim-dirvish` with
+  `brianhuster/vim-dirvish` in any code below.
 
 ==============================================================================
 2. Installation                             *vim-dirvish-git-lua-installation*
 
-This plugin requires : - A Vim 8.2.1054+ with `+lua` feature or Neovim 0.5.0+.
+This plugin requires : - A Vim 8.2.3288+ with `+lua` feature or Neovim 0.5.0+.
 - Dependencies: vim-dirvish <https://github.com/justinmk/vim-dirvish>
 
 Use your favorite plugin manager. Below are some examples :
