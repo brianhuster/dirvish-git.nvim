@@ -1,6 +1,5 @@
-local M = {} 
+local M = {}
 
-local health = vim.health
 local bool = require('dirvish_git.utils').bool
 
 M.min_vim = '8.2.1054'
@@ -18,6 +17,7 @@ M.compatible = function()
 end
 
 M.check = function()
+	local health = vim.health
 	if not bool(vim.fn.has('nvim')) then
 		print("`:checkhealth` is only supported in Neovim")
 		return

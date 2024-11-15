@@ -5,6 +5,12 @@ local bool = utils.bool
 local M = {}
 M.config = {}
 
+M.cache = {}
+
+local isnvim = bool(vim.fn.has('nvim'))
+
+Count = 0
+
 ---@class dict
 
 ---@type string
@@ -56,40 +62,49 @@ local function get_git_status(path)
 	if not git_root then
 		return
 	end
-	utils.system('cd ' .. git_root)
 	local base_path = path:sub(#git_root + 2)
 
-	local status
+	local callback = function(job, stdout)
+		local status_msg = stdout[1]
+		local data = { status_msg:match('(.)(.)%s(.*)') }
+		if #data > 0 then
+			local us, them = data[1], data[2]
+			local status = translate_git_status(us, them)
+			if M.config.git_icons then
+				M.cache[path] = M.config.git_icons[status]
+				if vim.bo.filetype == 'dirvish' then
+					vim.fn['dirvish#apply_icons']()
+				end
+			end
+		else
+			M.cache[path] = nil
+		end
+	end
 	if not bool(vim.fn.isdirectory(path)) then
-		status = utils.systemlist(('git status --porcelain --ignored=no %s'):format(base_path))[1]
+		utils.async_system(('git status --porcelain --ignored=no %s'):format(base_path), callback)
 	else
-		status = utils.systemlist(('git status --porcelain --ignored --renames %s'):format(base_path))[1]
-	end
-	if not status then
-		return
-	end
-	local data = { status:match('(.)(.)%s(.*)') }
-	if #data > 0 then
-		local us, them = data[1], data[2]
-		return translate_git_status(us, them)
-	end
-end
-
----@param path string
-local function get_git_icon(path)
-	local status = get_git_status(path)
-	if status then
-		return M.config.git_icons[status]
+		path = path .. sep
+		utils.async_system(('git status --porcelain --ignored --renames %s'):format(base_path), callback)
 	end
 end
 
 ---@param file string
 function M.add_icon(file)
-	local git_icon = get_git_icon(file)
+	local git_icon = M.cache[file]
 	if not git_icon then
 		return file:sub(-1) == sep and M.config.git_icons.directory or M.config.git_icons.file
 	end
 	return git_icon
+end
+
+function M.init()
+	Count = 0
+	local current_dir = vim.fn.expand('%')
+	local files = vim.fn.glob(current_dir .. '*', true, true)
+	for i = 1, #files do
+		local file = files[i]
+		get_git_status(file)
+	end
 end
 
 --- Set up the plugin
@@ -105,13 +120,13 @@ function M.setup(opts)
 		file = '📄',
 		directory = '📂',
 	}
-	if not bool(vim.fn.has('nvim')) then
+	if not isnvim then
 		git_icons = vim.dict(git_icons)
 	end
 	local default_opts = {
 		git_icons = git_icons,
 	}
-	if bool(vim.fn.has('nvim')) then
+	if isnvim then
 		M.config = vim.tbl_deep_extend('force', default_opts, opts or {})
 	else
 		M.config = vim.dict_deep_extend('force', vim.dict(default_opts), opts or vim.dict())
