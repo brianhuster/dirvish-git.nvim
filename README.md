@@ -1,11 +1,11 @@
 # Introduction 
 [vim-dirvish-git.lua](https://github.com/brianhuster/vim-dirvish-git.lua) is a plugin for Vim 8+ and Neovim that provides Gitsigns integration for [vim-dirvish](https://github.com/justinmk/vim-dirvish) by Justin M. Keyes. Inspired by [vim-dirvish-git](https://github.com/kristijanhusak/vim-dirvish-git) by Kristijan Husak.
 
-> Note: This plugin is still in development. Use at your own risk.
+> :warning: For now, this plugin only works with `brianhuster`'s fork of `vim-dirvish`. Please replace `justinmk/vim-dirvish` with `brianhuster/vim-dirvish` in any code below.
 
 # Installation
 This plugin requires :
-- A Vim 8.2.1054+ with `+lua` feature or Neovim 0.5.0+.
+- A Vim 8.2.3288+ with `+lua` feature or Neovim 0.5.0+.
 - Dependencies: [vim-dirvish](https://github.com/justinmk/vim-dirvish)
 
 Use your favorite plugin manager. Below are some examples : 
