@@ -37,7 +37,7 @@ Note: you can remove any of the icons by setting them to a space.
 This only works in Neovim
 
 ```lua
-require('dirvish_git').setup({
+require('dirvish-git').setup({
     git_icons = {
         modified = '🖋️',
         staged = '✅',
@@ -66,7 +66,7 @@ var dirvish_git_lua_config = {
         directory: '📁',
     }
 }
-luaeval('require("dirvish_git").setup(_A)', dirvish_git_lua_config)
+luaeval('require("dirvish-git").setup(_A)', dirvish_git_lua_config)
 ```
 
 ## Legacy Vim script
@@ -84,7 +84,7 @@ let l:dirvish_git_lua_config = {
     \     'directory': '📁',
     \ }
 \ }
-call luaeval('require("dirvish_git").setup(_A)', l:dirvish_git_lua_config)
+call luaeval('require("dirvish-git").setup(_A)', l:dirvish_git_lua_config)
 ```
 
 # Contributing

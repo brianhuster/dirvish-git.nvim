@@ -1,5 +1,5 @@
-require('dirvish_git._vim')
-local utils = require('dirvish_git.utils')
+require('dirvish-git._vim')
+local utils = require('dirvish-git.utils')
 local bool = utils.bool
 
 local M = {}
@@ -131,7 +131,7 @@ function M.setup(opts)
 	else
 		M.config = vim.dict_deep_extend('force', vim.dict(default_opts), opts or vim.dict())
 	end
-	vim.fn['dirvish#add_icon_fn'](require('dirvish_git').add_icon)
+	vim.fn['dirvish#add_icon_fn'](M.add_icon)
 end
 
 return M

@@ -1,6 +1,6 @@
 local M = {}
 
-local bool = require('dirvish_git.utils').bool
+local bool = require('dirvish-git.utils').bool
 
 M.min_vim = '8.2.1054'
 M.min_nvim = '0.5.0'
@@ -31,7 +31,7 @@ M.check = function()
 	end
 
 	health.start('Check configuration')
-	health.info(vim.inspect(require('dirvish_git').config))
+	health.info(vim.inspect(require('dirvish-git').config))
 end
 
 return M
