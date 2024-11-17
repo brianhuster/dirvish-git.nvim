@@ -15,5 +15,5 @@ if !luaeval('VimDirvishGitSet')
 	lua require('dirvish_git').setup()
 endif
 
-autocmd FileType dirvish lua require("dirvish_git").init()
+autocmd FileType dirvish lua require("dirvish-git").init()
 
