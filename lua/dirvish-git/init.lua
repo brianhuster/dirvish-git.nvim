@@ -1,5 +1,5 @@
-require('dirvish_git._vim')
-local utils = require('dirvish_git.utils')
+require('dirvish-git._vim')
+local utils = require('dirvish-git.utils')
 local bool = utils.bool
 
 local M = {}

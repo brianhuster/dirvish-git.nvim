@@ -1,4 +1,4 @@
-local bool = require('dirvish_git.utils').bool
+local bool = require('dirvish-git.utils').bool
 if bool(vim.fn.has('nvim')) then
 	return
 end
