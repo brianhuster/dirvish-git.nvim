@@ -1,20 +1,19 @@
 require('dirvish-git._vim')
 local utils = require('dirvish-git.utils')
 local bool = utils.bool
+local fn = vim.fn
 
 local M = {}
 M.config = {}
 
 M.cache = {}
 
-local isnvim = bool(vim.fn.has('nvim'))
-
-Count = 0
+local isnvim = bool(fn.has('nvim'))
 
 ---@class dict
 
 ---@type string
-local sep = bool(vim.fn.exists('+shellslash')) and not bool(vim.o.shellslash) and '\\' or '/'
+local sep = bool(fn.exists('+shellslash')) and not bool(vim.o.shellslash) and '\\' or '/'
 
 ---@param current_dir string
 local function get_git_root(current_dir)
@@ -24,7 +23,7 @@ end
 
 ---@param dir string
 local function is_git_repo(dir)
-	return bool(vim.fn.isdirectory(dir .. sep .. '.git'))
+	return bool(fn.isdirectory(dir .. sep .. '.git'))
 end
 
 ---@param us string
@@ -49,7 +48,7 @@ end
 
 ---@param path string
 local function get_git_status(path)
-	local current_dir = vim.fn.expand('%')
+	local current_dir = fn.expand('%')
 	if not vim.b.git_root then
 		vim.b.git_root = get_git_root(current_dir)
 	else
@@ -73,19 +72,15 @@ local function get_git_status(path)
 			if M.config.git_icons then
 				M.cache[path] = M.config.git_icons[status]
 				if vim.o.filetype == 'dirvish' then
-					vim.fn['dirvish#apply_icons']()
+					fn['dirvish#apply_icons']()
 				end
 			end
 		else
 			M.cache[path] = nil
 		end
 	end
-	if not bool(vim.fn.isdirectory(path)) then
-		utils.async_system(('git status --porcelain --ignored=no %s'):format(base_path), callback)
-	else
-		path = path .. sep
-		utils.async_system(('git status --porcelain --ignored --renames %s'):format(base_path), callback)
-	end
+
+	utils.async_system(('git status --porcelain --ignored=no %s'):format(base_path), callback)
 end
 
 ---@param file string
@@ -98,9 +93,7 @@ function M.add_icon(file)
 end
 
 function M.init()
-	Count = 0
-	local current_dir = vim.fn.expand('%')
-	local files = vim.fn.glob(current_dir .. '*', true, true)
+	local files = fn.getline(1, '$')
 	for i = 1, #files do
 		local file = files[i]
 		get_git_status(file)
@@ -131,7 +124,7 @@ function M.setup(opts)
 	else
 		M.config = vim.dict_deep_extend('force', vim.dict(default_opts), opts or vim.dict())
 	end
-	vim.fn['dirvish#add_icon_fn'](M.add_icon)
+	fn['dirvish#add_icon_fn'](M.add_icon)
 end
 
 return M

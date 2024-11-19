@@ -52,7 +52,6 @@ function utils.async_system(cmd, callback)
 					callback(nil, { '' })
 				end
 			end,
-			cwd = vim.b.git_root or vim.fn.getcwd(),
 		}))
 	end
 end
