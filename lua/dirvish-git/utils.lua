@@ -1,5 +1,6 @@
 local utils = {}
 
+---@param cmd string
 function utils.system(cmd)
 	local _, handle = pcall(io.popen, cmd .. " 2> ~/err.log")
 	if not handle then
@@ -10,6 +11,7 @@ function utils.system(cmd)
 	return result
 end
 
+---@param cmd string
 function utils.systemlist(cmd)
 	local result = utils.system(cmd)
 	if not result then
@@ -26,6 +28,8 @@ function utils.bool(any)
 	return any and any ~= 0
 end
 
+---@param cmd string
+---@param callback function
 function utils.async_system(cmd, callback)
 	if utils.bool(vim.fn.has('nvim')) then
 		local count = 0

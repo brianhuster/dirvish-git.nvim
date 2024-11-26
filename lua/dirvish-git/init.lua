@@ -8,6 +8,7 @@ M.config = {}
 
 M.cache = {}
 
+---@type boolean
 local isnvim = bool(fn.has('nvim'))
 
 ---@class dict
