@@ -1,8 +1,7 @@
 let compatible = luaeval("require'autosave.health'.compatible()")
-let min_vim = luaeval("require'autosave.health'.min_vim")
 let min_nvim = luaeval("require'autosave.health'.min_nvim")
 if !compatible
-	echoerr printf("autosave.vim requires Vim >= %s with +lua feature or Neovim >= %s", min_vim, min_nvim)
+	echoerr printf("autosave.vim requires Neovim >= %s", min_vim, min_nvim)
 	finish
 endif
 
