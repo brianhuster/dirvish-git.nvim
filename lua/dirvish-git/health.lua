@@ -2,15 +2,11 @@ local M = {}
 
 local bool = require('dirvish-git.utils').bool
 
-M.min_vim = '8.2.1054'
 M.min_nvim = '0.5.0'
 
 M.compatible = function()
 	local compatible = false
 	if bool(vim.fn.has('nvim-' .. M.min_nvim)) then
-		compatible = true
-	end
-	if bool(vim.fn.has("patch-" .. M.min_vim)) and bool(vim.fn.has("lua")) then
 		compatible = true
 	end
 	return compatible

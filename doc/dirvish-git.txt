@@ -7,29 +7,24 @@ Table of Contents                              *dirvish-git-table-of-contents*
 2. Installation                                     |dirvish-git-installation|
 3. Configuration                                   |dirvish-git-configuration|
   - Lua                                        |dirvish-git-configuration-lua|
-  - Vim9 script                        |dirvish-git-configuration-vim9-script|
   - Legacy Vim script            |dirvish-git-configuration-legacy-vim-script|
 4. Contributing                                     |dirvish-git-contributing|
 
 ==============================================================================
 1. Introduction                                     *dirvish-git-introduction*
 
-vim-dirvish-git.lua <https://github.com/brianhuster/vim-dirvish-git.lua> is a
+dirvish-git.nvim <https://github.com/brianhuster/vim-dirvish-git.lua> is a
 plugin for Vim 8+ and Neovim that provides Gitsigns integration for vim-dirvish
 <https://github.com/justinmk/vim-dirvish> by Justin M. Keyes. Inspired by
 vim-dirvish-git <https://github.com/kristijanhusak/vim-dirvish-git> by
 Kristijan Husak.
 
 
-  :warning: For now, this plugin only works with `brianhuster`’s fork of
-  `vim-dirvish`. Please replace `justinmk/vim-dirvish` with
-  `brianhuster/vim-dirvish` in any code below.
-
 ==============================================================================
 2. Installation                                     *dirvish-git-installation*
 
-This plugin requires : - A Vim 8.2.3288+ with `+lua` feature or Neovim 0.5.0+.
-- Dependencies: vim-dirvish <https://github.com/justinmk/vim-dirvish>
+This plugin requires : - Neovim 0.5.0+. - Dependencies: vim-dirvish
+<https://github.com/justinmk/vim-dirvish>
 
 Use your favorite plugin manager. Below are some examples :
 
@@ -37,14 +32,14 @@ Use your favorite plugin manager. Below are some examples :
 
 >vim
     Plug 'justinmk/vim-dirvish'
-    Plug 'brianhuster/vim-dirvish-git.lua'
+    Plug 'brianhuster/dirvish-git.nvim'
 <
 
 - lazy.nvim <https://github.com/folke/lazy.nvim>:
 
 >lua
     {
-        "brianhuster/vim-dirvish-git.lua",
+        "brianhuster/dirvish-git.nvim",
         dependencies = {
             "justinmk/vim-dirvish",
         }
@@ -78,29 +73,10 @@ This only works in Neovim
 <
 
 
-VIM9 SCRIPT                            *dirvish-git-configuration-vim9-script*
-
->vim
-    var dirvish_git_lua_config = {
-        git_icons: {
-            modified: '🖋️',
-            staged: '✅',
-            renamed: '➜',
-            unmerged: '❌',
-            ignored: '🙈',
-            untracked: '❓',
-            file: '📄',
-            directory: '📁',
-        }
-    }
-    luaeval('require("dirvish-git").setup(_A)', dirvish_git_lua_config)
-<
-
-
 LEGACY VIM SCRIPT                *dirvish-git-configuration-legacy-vim-script*
 
 >vim
-    let l:dirvish_git_lua_config = {
+    let s:dirvish_git_lua_config = {
         \ 'git_icons': {
         \     'modified': '🖋️',
         \     'staged': '✅',
@@ -112,7 +88,7 @@ LEGACY VIM SCRIPT                *dirvish-git-configuration-legacy-vim-script*
         \     'directory': '📁',
         \ }
     \ }
-    call luaeval('require("dirvish-git").setup(_A)', l:dirvish_git_lua_config)
+    call luaeval('require("dirvish-git").setup(_A)', s:dirvish_git_lua_config)
 <
 
 

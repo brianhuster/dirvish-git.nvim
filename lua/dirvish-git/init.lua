@@ -1,13 +1,15 @@
-require('dirvish-git._vim')
 local utils = require('dirvish-git.utils')
 local bool = utils.bool
 local fn = vim.fn
+local api = vim.api
+local ns_id = api.nvim_create_namespace('conceal')
 
 local M = {}
 M.config = {}
 
 M.cache = {}
 
+---@type boolean
 local isnvim = bool(fn.has('nvim'))
 
 ---@class dict
@@ -16,14 +18,16 @@ local isnvim = bool(fn.has('nvim'))
 local sep = bool(fn.exists('+shellslash')) and not bool(vim.o.shellslash) and '\\' or '/'
 
 ---@param current_dir string
+---@return string|nil
 local function get_git_root(current_dir)
-	local root = utils.system(('git -C %s rev-parse --show-toplevel'):format(current_dir))
-	return root and vim.trim(root) or nil
-end
-
----@param dir string
-local function is_git_repo(dir)
-	return bool(fn.isdirectory(dir .. sep .. '.git'))
+	local result = vim.system({ 'git', '-C', current_dir, 'rev-parse', '--show-toplevel' }, { text = true }):wait()
+	local root = result.stdout
+	if root then
+		root = vim.trim(root)
+		if fn.isdirectory(root) == 1 then
+			return root
+		end
+	end
 end
 
 ---@param us string
@@ -46,19 +50,15 @@ local function translate_git_status(us, them)
 	end
 end
 
----@param path string
-local function get_git_status(path)
-	local current_dir = fn.expand('%')
-	if not vim.b.git_root then
-		vim.b.git_root = get_git_root(current_dir)
-	else
-		local git_root = vim.b.git_root
-		if not is_git_repo(git_root) then
-			vim.b.git_root = get_git_root(current_dir)
-		end
-	end
+---@param line_number number : 1-indexed line number
+local function get_git_status(line_number)
+	local path = fn.getline(line_number)
 	local git_root = vim.b.git_root
 	if not git_root then
+		vim.api.nvim_buf_set_extmark(0, ns_id, line_number - 1, 0, {
+			conceal = path:sub(-1) == sep and M.config.git_icons.directory or M.config.git_icons.file,
+			end_col = #vim.api.nvim_buf_get_name(0),
+		})
 		return
 	end
 	local base_path = path:sub(#git_root + 2)
@@ -71,32 +71,28 @@ local function get_git_status(path)
 			local status = translate_git_status(us, them)
 			if M.config.git_icons then
 				M.cache[path] = M.config.git_icons[status]
-				if vim.o.filetype == 'dirvish' then
-					fn['dirvish#apply_icons']()
-				end
 			end
 		else
 			M.cache[path] = nil
 		end
+		if not vim.o.filetype == 'dirvish' then
+			return
+		end
+		vim.api.nvim_buf_set_extmark(0, ns_id, line_number - 1, 0, {
+			conceal = M.cache[path] or (path:sub(-1) == sep and M.config.git_icons.directory or M.config.git_icons.file),
+			end_col = #vim.api.nvim_buf_get_name(0),
+		})
 	end
 
 	utils.async_system(('git status --porcelain --ignored=no %s'):format(base_path), callback)
 end
 
----@param file string
-function M.add_icon(file)
-	local git_icon = M.cache[file]
-	if not git_icon then
-		return file:sub(-1) == sep and M.config.git_icons.directory or M.config.git_icons.file
-	end
-	return git_icon
-end
 
 function M.init()
-	local files = fn.getline(1, '$')
-	for i = 1, #files do
-		local file = files[i]
-		get_git_status(file)
+	vim.b.git_root = get_git_root(fn.expand('%'))
+	local last_line = api.nvim_buf_line_count(0)
+	for i = 1, last_line do
+		get_git_status(i)
 	end
 end
 
@@ -121,10 +117,7 @@ function M.setup(opts)
 	}
 	if isnvim then
 		M.config = vim.tbl_deep_extend('force', default_opts, opts or {})
-	else
-		M.config = vim.dict_deep_extend('force', vim.dict(default_opts), opts or vim.dict())
 	end
-	fn['dirvish#add_icon_fn'](M.add_icon)
 end
 
 return M

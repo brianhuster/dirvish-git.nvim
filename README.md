@@ -1,11 +1,9 @@
 # Introduction
-[vim-dirvish-git.lua](https://github.com/brianhuster/vim-dirvish-git.lua) is a plugin for Vim 8+ and Neovim that provides Gitsigns integration for [vim-dirvish](https://github.com/justinmk/vim-dirvish) by Justin M. Keyes. Inspired by [vim-dirvish-git](https://github.com/kristijanhusak/vim-dirvish-git) by Kristijan Husak.
-
-> :warning: For now, this plugin only works with `brianhuster`'s fork of `vim-dirvish`. Please replace `justinmk/vim-dirvish` with `brianhuster/vim-dirvish` in any code below.
+[dirvish-git.nvim](https://github.com/brianhuster/vim-dirvish-git.lua) is a plugin for Vim 8+ and Neovim that provides Gitsigns integration for [vim-dirvish](https://github.com/justinmk/vim-dirvish) by Justin M. Keyes. Inspired by [vim-dirvish-git](https://github.com/kristijanhusak/vim-dirvish-git) by Kristijan Husak.
 
 # Installation
 This plugin requires :
-- A Vim 8.2.3288+ with `+lua` feature or Neovim 0.5.0+.
+- Neovim 0.5.0+.
 - Dependencies: [vim-dirvish](https://github.com/justinmk/vim-dirvish)
 
 Use your favorite plugin manager. Below are some examples : 
@@ -14,14 +12,14 @@ Use your favorite plugin manager. Below are some examples :
 
 ```vim
 Plug 'justinmk/vim-dirvish'
-Plug 'brianhuster/vim-dirvish-git.lua'
+Plug 'brianhuster/dirvish-git.nvim'
 ```
 
 * [lazy.nvim](https://github.com/folke/lazy.nvim):
 
 ```lua
 {
-    "brianhuster/vim-dirvish-git.lua",
+    "brianhuster/dirvish-git.nvim",
     dependencies = {
         "justinmk/vim-dirvish",
     }
@@ -51,28 +49,10 @@ require('dirvish-git').setup({
 })
 ```
 
-## Vim9 script
-
-```vim
-var dirvish_git_lua_config = {
-    git_icons: {
-        modified: '🖋️',
-        staged: '✅',
-        renamed: '➜',
-        unmerged: '❌',
-        ignored: '🙈',
-        untracked: '❓',
-        file: '📄',
-        directory: '📁',
-    }
-}
-luaeval('require("dirvish-git").setup(_A)', dirvish_git_lua_config)
-```
-
 ## Legacy Vim script
 
 ```vim
-let l:dirvish_git_lua_config = {
+let s:dirvish_git_lua_config = {
     \ 'git_icons': {
     \     'modified': '🖋️',
     \     'staged': '✅',
@@ -84,7 +64,7 @@ let l:dirvish_git_lua_config = {
     \     'directory': '📁',
     \ }
 \ }
-call luaeval('require("dirvish-git").setup(_A)', l:dirvish_git_lua_config)
+call luaeval('require("dirvish-git").setup(_A)', s:dirvish_git_lua_config)
 ```
 
 # Contributing
