@@ -72,12 +72,23 @@ local function get_git_status(path)
 			local status = translate_git_status(us, them)
 			if M.config.git_icons then
 				M.cache[path] = M.config.git_icons[status]
-				if vim.o.filetype == 'dirvish' then
-					fn['dirvish#apply_icons']()
-				end
 			end
 		else
 			M.cache[path] = nil
+		end
+		if not vim.o.filetype == 'dirvish' then
+			return
+		end
+		local lines = fn.getline(1, '$')
+		for i = 1, #lines do
+			if lines[i] == path then
+				--- Use M.cache[path] as conceal to replaced the current hidden content of the line
+				local ns_id = vim.api.nvim_create_namespace('conceal')
+				vim.api.nvim_buf_set_extmark(0, ns_id, i - 1, 0, {
+					conceal = M.cache[path],
+					end_col = #lines[i],
+				})
+			end
 		end
 	end
 
