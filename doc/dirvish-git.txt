@@ -76,7 +76,7 @@ This only works in Neovim
 LEGACY VIM SCRIPT                *dirvish-git-configuration-legacy-vim-script*
 
 >vim
-    let l:dirvish_git_lua_config = {
+    let s:dirvish_git_lua_config = {
         \ 'git_icons': {
         \     'modified': '🖋️',
         \     'staged': '✅',
@@ -88,7 +88,7 @@ LEGACY VIM SCRIPT                *dirvish-git-configuration-legacy-vim-script*
         \     'directory': '📁',
         \ }
     \ }
-    call luaeval('require("dirvish-git").setup(_A)', l:dirvish_git_lua_config)
+    call luaeval('require("dirvish-git").setup(_A)', s:dirvish_git_lua_config)
 <
 
 
