@@ -2,6 +2,8 @@ require('dirvish-git._vim')
 local utils = require('dirvish-git.utils')
 local bool = utils.bool
 local fn = vim.fn
+local api = vim.api
+local ns_id = vim.api.nvim_create_namespace('conceal')
 
 local M = {}
 M.config = {}
@@ -79,14 +81,12 @@ local function get_git_status(path)
 		if not vim.o.filetype == 'dirvish' then
 			return
 		end
-		local lines = fn.getline(1, '$')
+		local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
 		for i = 1, #lines do
 			if lines[i] == path then
-				--- Use M.cache[path] as conceal to replaced the current hidden content of the line
-				local ns_id = vim.api.nvim_create_namespace('conceal')
 				vim.api.nvim_buf_set_extmark(0, ns_id, i - 1, 0, {
 					conceal = M.cache[path],
-					end_col = #lines[i],
+					end_col = #vim.api.nvim_buf_get_name(0),
 				})
 			end
 		end
