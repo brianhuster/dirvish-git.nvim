@@ -2,7 +2,7 @@ local utils = require('dirvish-git.utils')
 local bool = utils.bool
 local fn = vim.fn
 local api = vim.api
-local ns_id = api.nvim_create_namespace('conceal')
+local ns_id = api.nvim_create_namespace('dirvish_git')
 
 local M = {}
 M.config = {}
@@ -53,12 +53,17 @@ end
 ---@param line_number number : 1-indexed line number
 local function get_git_status(line_number)
 	local path = fn.getline(line_number)
+
+	local function set_icon()
+		api.nvim_buf_set_extmark(0, ns_id, line_number - 1, 0, {
+			virt_text = { { M.cache[path] or (path:sub(-1) == sep and M.config.git_icons.directory or M.config.git_icons.file), 'Comment' } },
+			virt_text_pos = 'inline',
+		})
+	end
+
 	local git_root = vim.b.git_root
 	if not git_root then
-		vim.api.nvim_buf_set_extmark(0, ns_id, line_number - 1, 0, {
-			conceal = path:sub(-1) == sep and M.config.git_icons.directory or M.config.git_icons.file,
-			end_col = #vim.api.nvim_buf_get_name(0),
-		})
+		set_icon()
 		return
 	end
 	local base_path = path:sub(#git_root + 2)
@@ -78,12 +83,8 @@ local function get_git_status(line_number)
 		if not vim.o.filetype == 'dirvish' then
 			return
 		end
-		vim.api.nvim_buf_set_extmark(0, ns_id, line_number - 1, 0, {
-			conceal = M.cache[path] or (path:sub(-1) == sep and M.config.git_icons.directory or M.config.git_icons.file),
-			end_col = #vim.api.nvim_buf_get_name(0),
-		})
+		set_icon()
 	end
-
 	utils.async_system(('git status --porcelain --ignored=no %s'):format(base_path), callback)
 end
 
