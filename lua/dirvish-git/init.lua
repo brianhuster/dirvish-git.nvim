@@ -81,9 +81,6 @@ local function get_git_status(line_number)
 		vim.api.nvim_buf_set_extmark(0, ns_id, line_number - 1, 0, {
 			conceal = M.cache[path] or (path:sub(-1) == sep and M.config.git_icons.directory or M.config.git_icons.file),
 			end_col = #vim.api.nvim_buf_get_name(0),
-			virtual_text = M.cache[path] or
-			(path:sub(-1) == sep and M.config.git_icons.directory or M.config.git_icons.file),
-			virtual_text_pos = 'inline',
 		})
 	end
 
