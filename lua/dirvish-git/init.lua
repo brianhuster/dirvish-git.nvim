@@ -20,7 +20,8 @@ local sep = bool(fn.exists('+shellslash')) and not bool(vim.o.shellslash) and '\
 ---@param current_dir string
 ---@return string|nil
 local function get_git_root(current_dir)
-	local root = vim.system({ 'git', '-C', current_dir, 'rev-parse', '--show-toplevel' }, { text = true }):wait().stdout
+	local result = vim.system({ 'git', '-C', current_dir, 'rev-parse', '--show-toplevel' }, { text = true }):wait()
+	local root = result.stdout
 	return root and fn.isdirectory(root) == 1 and vim.trim(root) or nil
 end
 
