@@ -1,4 +1,4 @@
- local M = {}
+local M = {}
 
 local bool = require('dirvish-git.utils').bool
 
