@@ -18,9 +18,10 @@ local isnvim = bool(fn.has('nvim'))
 local sep = bool(fn.exists('+shellslash')) and not bool(vim.o.shellslash) and '\\' or '/'
 
 ---@param current_dir string
+---@return string|nil
 local function get_git_root(current_dir)
 	local root = fn.system(('git -C %s rev-parse --show-toplevel'):format(current_dir))
-	return root and vim.trim(root) or nil
+	return root and fn.isdirectory(root) == 1 and vim.trim(root) or nil
 end
 
 ---@param dir string
