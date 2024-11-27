@@ -52,7 +52,7 @@ require('dirvish-git').setup({
 ## Legacy Vim script
 
 ```vim
-let l:dirvish_git_lua_config = {
+let s:dirvish_git_lua_config = {
     \ 'git_icons': {
     \     'modified': '🖋️',
     \     'staged': '✅',
@@ -64,7 +64,7 @@ let l:dirvish_git_lua_config = {
     \     'directory': '📁',
     \ }
 \ }
-call luaeval('require("dirvish-git").setup(_A)', l:dirvish_git_lua_config)
+call luaeval('require("dirvish-git").setup(_A)', s:dirvish_git_lua_config)
 ```
 
 # Contributing

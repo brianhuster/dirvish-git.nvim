@@ -30,11 +30,6 @@ local function get_git_root(current_dir)
 	end
 end
 
----@param dir string
-local function is_git_repo(dir)
-	return bool(fn.isdirectory(dir .. sep .. '.git'))
-end
-
 ---@param us string
 ---@param them string
 local function translate_git_status(us, them)
@@ -58,15 +53,6 @@ end
 ---@param line_number number : 1-indexed line number
 local function get_git_status(line_number)
 	local path = fn.getline(line_number)
-	local current_dir = fn.expand('%')
-	if not vim.b.git_root then
-		vim.b.git_root = get_git_root(current_dir)
-	else
-		local git_root = vim.b.git_root
-		if not is_git_repo(git_root) then
-			vim.b.git_root = get_git_root(current_dir)
-		end
-	end
 	local git_root = vim.b.git_root
 	if not git_root then
 		vim.api.nvim_buf_set_extmark(0, ns_id, line_number - 1, 0, {
@@ -95,6 +81,9 @@ local function get_git_status(line_number)
 		vim.api.nvim_buf_set_extmark(0, ns_id, line_number - 1, 0, {
 			conceal = M.cache[path] or (path:sub(-1) == sep and M.config.git_icons.directory or M.config.git_icons.file),
 			end_col = #vim.api.nvim_buf_get_name(0),
+			virtual_text = M.cache[path] or
+			(path:sub(-1) == sep and M.config.git_icons.directory or M.config.git_icons.file),
+			virtual_text_pos = 'inline',
 		})
 	end
 
@@ -103,6 +92,7 @@ end
 
 
 function M.init()
+	vim.b.git_root = get_git_root(fn.expand('%'))
 	local last_line = api.nvim_buf_line_count(0)
 	for i = 1, last_line do
 		get_git_status(i)

@@ -1,5 +1,5 @@
-let compatible = luaeval("require'autosave.health'.compatible()")
-let min_nvim = luaeval("require'autosave.health'.min_nvim")
+let compatible = luaeval("require'dirvish-git.health'.compatible()")
+let min_nvim = luaeval("require'dirvish-git.health'.min_nvim")
 if !compatible
 	echoerr printf("autosave.vim requires Neovim >= %s", min_vim, min_nvim)
 	finish
