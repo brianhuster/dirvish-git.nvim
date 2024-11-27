@@ -14,20 +14,25 @@ end
 
 M.check = function()
 	local health = vim.health
+	local ok = health.ok or health.report_ok
+	local error = health.error or health.report_error
+	local info = health.info or health.report_info
+	local start = health.start or health.report_start
+
 	if not bool(vim.fn.has('nvim')) then
 		print("`:checkhealth` is only supported in Neovim")
 		return
 	end
-	health.start('Check requirements')
+	start('Check requirements')
 	local vimver = string.format('%s.%s.%s', vim.version().major, vim.version().minor, vim.version().patch)
 	if not M.compatible() then
-		health.error("Neovim version is too old", ("Update to Neovim 0.9 or later"):format(M.min_nvim))
+		error("Neovim version is too old", ("Update to Neovim 0.9 or later"):format(M.min_nvim))
 	else
-		health.ok(("Neovim %s is compatible with with autosave.nvim"):format(vimver))
+		ok(("Neovim %s is compatible with with autosave.nvim"):format(vimver))
 	end
 
-	health.start('Check configuration')
-	health.info(vim.inspect(require('dirvish-git').config))
+	start('Check configuration')
+	info(vim.inspect(require('dirvish-git').config))
 end
 
 return M

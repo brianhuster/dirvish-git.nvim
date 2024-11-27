@@ -20,10 +20,18 @@ Plug 'brianhuster/dirvish-git.nvim'
 ```lua
 {
     "brianhuster/dirvish-git.nvim",
-    dependencies = {
-        "justinmk/vim-dirvish",
-    }
+    --- No need to specify dependencies as lazy.nvim supports loading dependencies information from pkg.json
 }
+```
+
+## mini.deps
+```lua
+MiniDeps.add({
+    source = 'brianhuster/dirvish-git.nvim',
+    depends = {
+        'justinmk/vim-dirvish',
+    },
+})
 ```
 
 # Configuration
@@ -31,8 +39,6 @@ Plug 'brianhuster/dirvish-git.nvim'
 Note: you can remove any of the icons by setting them to a space.
 
 ## Lua
-
-This only works in Neovim
 
 ```lua
 require('dirvish-git').setup({
