@@ -20,7 +20,7 @@ local sep = bool(fn.exists('+shellslash')) and not bool(vim.o.shellslash) and '\
 ---@param current_dir string
 ---@return string|nil
 local function get_git_root(current_dir)
-	local root = fn.system(('git -C %s rev-parse --show-toplevel'):format(current_dir))
+	local root = vim.system({ 'git', '-C', current_dir, 'rev-parse', '--show-toplevel' }, { text = true }):wait().stdout
 	return root and fn.isdirectory(root) == 1 and vim.trim(root) or nil
 end
 
@@ -83,7 +83,7 @@ local function get_git_status(line_number)
 			return
 		end
 		vim.api.nvim_buf_set_extmark(0, ns_id, line_number - 1, 0, {
-			conceal = M.cache[path],
+			conceal = M.cache[path] or (path:sub(-1) == sep and M.config.git_icons.directory or M.config.git_icons.file),
 			end_col = #vim.api.nvim_buf_get_name(0),
 		})
 	end
@@ -91,14 +91,6 @@ local function get_git_status(line_number)
 	utils.async_system(('git status --porcelain --ignored=no %s'):format(base_path), callback)
 end
 
----@param file string
-function M.add_icon(file)
-	local git_icon = M.cache[file]
-	if not git_icon then
-		return file:sub(-1) == sep and M.config.git_icons.directory or M.config.git_icons.file
-	end
-	return git_icon
-end
 
 function M.init()
 	local last_line = api.nvim_buf_line_count(0)
