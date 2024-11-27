@@ -5,6 +5,7 @@ Table of Contents                              *dirvish-git-table-of-contents*
 
 1. Introduction                                     |dirvish-git-introduction|
 2. Installation                                     |dirvish-git-installation|
+  - mini.deps                             |dirvish-git-installation-mini.deps|
 3. Configuration                                   |dirvish-git-configuration|
   - Lua                                        |dirvish-git-configuration-lua|
   - Legacy Vim script            |dirvish-git-configuration-legacy-vim-script|
@@ -40,10 +41,20 @@ Use your favorite plugin manager. Below are some examples :
 >lua
     {
         "brianhuster/dirvish-git.nvim",
-        dependencies = {
-            "justinmk/vim-dirvish",
-        }
+        --- No need to specify dependencies as lazy.nvim supports loading dependencies information from pkg.json
     }
+<
+
+
+MINI.DEPS                                 *dirvish-git-installation-mini.deps*
+
+>lua
+    MiniDeps.add({
+        source = 'brianhuster/dirvish-git.nvim',
+        depends = {
+            'justinmk/vim-dirvish',
+        },
+    })
 <
 
 
@@ -54,8 +65,6 @@ Note: you can remove any of the icons by setting them to a space.
 
 
 LUA                                            *dirvish-git-configuration-lua*
-
-This only works in Neovim
 
 >lua
     require('dirvish-git').setup({
