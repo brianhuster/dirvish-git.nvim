@@ -3,6 +3,7 @@ local bool = utils.bool
 local fn = vim.fn
 local api = vim.api
 local ns_id = api.nvim_create_namespace('dirvish_git')
+local o = vim.o
 
 local M = {}
 M.config = {}
@@ -63,7 +64,9 @@ local function get_git_status(line_number)
 
 	local git_root = vim.b.git_root
 	if not git_root then
-		set_icon()
+		if o.filetype == 'dirvish' or o.filetype == 'netrw' then
+			set_icon()
+		end
 		return
 	end
 	local base_path = path:sub(#git_root + 2)
@@ -80,7 +83,7 @@ local function get_git_status(line_number)
 		else
 			M.cache[path] = nil
 		end
-		if not vim.o.filetype == 'dirvish' then
+		if o.filetype ~= 'dirvish' and o.filetype ~= 'netrw' then
 			return
 		end
 		set_icon()
