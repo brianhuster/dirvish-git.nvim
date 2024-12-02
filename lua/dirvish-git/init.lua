@@ -1,3 +1,4 @@
+
 local utils = require('dirvish-git.utils')
 local bool = utils.bool
 local fn = vim.fn
@@ -5,6 +6,12 @@ local fn = vim.fn
 local isnvim = bool(fn.has('nvim'))
 local api = vim.api
 local g = vim.g
+local ns_id
+if isnvim then
+	ns_id = api.nvim_create_namespace('dirvish_git')
+else
+	vim.fn.prop_type_add('dirvish_git', vim.dict())
+end
 
 local M = {}
 M.cache = {}
@@ -56,13 +63,13 @@ local function get_git_status(line_number)
 
 	local function set_icon()
 		if isnvim then
-			local ns_id = api.nvim_create_namespace('dirvish_git')
 			api.nvim_buf_set_extmark(0, ns_id, line_number - 1, 0, {
 				virt_text = { { get_icon(path), 'Comment' } },
 				virt_text_pos = 'inline',
 			})
 		else
 			fn.prop_add(line_number, 1, vim.dict({
+				type = 'dirvish_git',
 				text = get_icon(path),
 			}))
 		end

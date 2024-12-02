@@ -4,7 +4,9 @@
 # Installation
 This plugin requires :
 
-- Editor: Vim 8.2.3288+ with `+lua` support or Neovim 0.5.0+
+- Editor: This plugin can be used in either Vim or Neovim.
+    - Vim 9.0.0185+ with `+lua` and `+textprop`
+    - Neovim 0.7.0+
 - [vim-dirvish](https://github.com/justinmk/vim-dirvish)
 
 Use your favorite plugin manager. Below are some examples : 
