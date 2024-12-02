@@ -24,7 +24,8 @@ Justin M. Keyes. Inspired by vim-dirvish-git
 ==============================================================================
 2. Installation                                     *dirvish-git-installation*
 
-This plugin requires : - Neovim 0.5.0+.
+This plugin requires : - Editor: Vim 8.2.3288+ with `+lua` support or Neovim
+0.5.0+
 
 Use your favorite plugin manager. Below are some examples :
 
