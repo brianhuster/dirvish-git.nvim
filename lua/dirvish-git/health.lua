@@ -14,10 +14,11 @@ M.min_vim = spec.engines.vim:sub(2)
 
 M.compatible = function()
 	local compatible = false
-	if bool(vim.fn.has('nvim-' .. M.min_nvim)) then
+	local has = vim.fn.has
+	if bool(has('nvim-' .. M.min_nvim)) then
 		compatible = true
 	end
-	if bool(vim.fn.has('patch-' .. M.min_vim)) and bool(vim.fn.has('lua')) then
+	if bool(has('patch-' .. M.min_vim)) and bool(has('lua')) and bool(has('textprop')) then
 		compatible = true
 	end
 	return compatible
