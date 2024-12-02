@@ -79,7 +79,7 @@ function utils.async_system(cmd, callback)
 		})
 	else
 		vim.fn.job_start(cmd, vim.dict({
-			outcb = function(job, data)
+			out_cb = function(job, data)
 				count = count + 1
 				if count > 1 then
 					return

@@ -3,6 +3,7 @@
 
 # Installation
 This plugin requires :
+
 - Editor: Vim 8.2.3288+ with `+lua` support or Neovim 0.5.0+
 - [vim-dirvish](https://github.com/justinmk/vim-dirvish)
 
