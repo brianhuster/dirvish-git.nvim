@@ -4,7 +4,6 @@ local fn = vim.fn
 ---@type boolean
 local isnvim = bool(fn.has('nvim'))
 local api = vim.api
-local o = vim.o
 local g = vim.g
 
 local M = {}
@@ -71,7 +70,7 @@ local function get_git_status(line_number)
 
 	local git_root = vim.b.git_root
 	if not git_root then
-		if o.filetype == 'dirvish' then
+		if vim.eval('&filetype') == 'dirvish' then
 			set_icon()
 		end
 		return
@@ -90,7 +89,7 @@ local function get_git_status(line_number)
 		else
 			M.cache[path] = nil
 		end
-		if o.filetype ~= 'dirvish' and o.filetype ~= 'netrw' then
+		if vim.eval('&filetype') then
 			return
 		end
 		set_icon()

@@ -2,24 +2,19 @@ local utils = {}
 
 local isnvim = vim.fn.has('nvim') == 1
 
----@type string
-utils.sep = utils.bool(vim.o.shellslash) and '/' or '\\'
-if vim.fn.has('win32') == 0 then
-	utils.sep = '/'
-end
 
 function utils.bool(any)
 	return any and any ~= 0
 end
 
-if not vim.o then
-	vim.o = {}
-	setmetatable(vim.o, {
-		__index = function(_, key)
-			local expr = '&' .. key
-			return vim.fn.exists(expr) == 1 and vim.eval(expr)
-		end,
-	})
+---@type string
+utils.sep = vim.eval('&shellslash') == 1 and '/' or '\\'
+if vim.fn.has('win32') == 0 then
+	utils.sep = '/'
+end
+
+if not vim.eval then
+	vim.eval = vim.api.nvim_eval
 end
 
 if not vim.json then
