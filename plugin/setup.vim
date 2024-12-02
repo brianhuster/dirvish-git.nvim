@@ -9,6 +9,12 @@ endif
 if !luaeval('VimDirvishGitSet')
 	lua require('dirvish-git').setup()
 endif
+function! s:dirvish_git_init() abort
+	if !luaeval('VimDirvishGitSet')
+		lua require('dirvish-git').setup()
+	endif
+	lua require('dirvish-git').init()
+endfunction
 
-autocmd FileType dirvish,netrw lua require('dirvish-git').init()
+autocmd FileType dirvish,netrw call s:dirvish_git_init()
 

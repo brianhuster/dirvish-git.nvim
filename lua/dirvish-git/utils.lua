@@ -23,6 +23,15 @@ if not vim.json then
 	}
 end
 
+if not vim.api then
+	vim.api = {
+		nvim_buf_line_count = function(bufnumber)
+			local b = bufnumber == 0 and vim.buffer() or vim.buffer(bufnumber)
+			return #b
+		end,
+	}
+end
+
 function utils.read(path, opts)
 	local file = opts and opts.type == 'file' and io.open(path, "r") or io.popen(path)
 	if not file then
