@@ -6,6 +6,9 @@ local utils = require('dirvish-git.utils')
 local plugin_path = utils.get_plugin_path()
 
 local sep = bool(vim.o.shellslash) and '/' or '\\'
+if vim.fn.has('win32') == 0 then
+	sep = '/'
+end
 
 local packspecpath = plugin_path .. sep .. 'pkg.json'
 local spec = vim.json.decode(utils.read(packspecpath, { type = 'file' }))

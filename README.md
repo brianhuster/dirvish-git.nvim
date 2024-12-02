@@ -1,15 +1,17 @@
 # Introduction
-[dirvish-git.nvim](https://github.com/brianhuster/vim-dirvish-git.lua) is a plugin for Neovim that provides Gitsigns integration for the builtin Netrw file explorer of Vim and [vim-dirvish](https://github.com/justinmk/vim-dirvish) by Justin M. Keyes. Inspired by [vim-dirvish-git](https://github.com/kristijanhusak/vim-dirvish-git) by Kristijan Husak.
+[dirvish-git.nvim](https://github.com/brianhuster/vim-dirvish-git.lua) is a plugin for Neovim that provides Gitsigns integration for the builtin [vim-dirvish](https://github.com/justinmk/vim-dirvish) by Justin M. Keyes. Inspired by [vim-dirvish-git](https://github.com/kristijanhusak/vim-dirvish-git) by Kristijan Husak.
 
 # Installation
 This plugin requires :
 - Editor: Vim 8.2.3288+ with `+lua` support or Neovim 0.5.0+
+- [vim-dirvish](https://github.com/justinmk/vim-dirvish)
 
 Use your favorite plugin manager. Below are some examples : 
 
 * [vim-plug](https://github.com/junegunn/vim-plug):
 
 ```vim
+Plug 'justinmk/vim-dirvish'
 Plug 'brianhuster/dirvish-git.nvim'
 ```
 
@@ -25,6 +27,9 @@ Plug 'brianhuster/dirvish-git.nvim'
 ```lua
 MiniDeps.add({
     source = 'brianhuster/dirvish-git.nvim',
+    depends = {
+        'justinmk/vim-dirvish',
+    },
 })
 ```
 

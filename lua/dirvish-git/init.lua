@@ -72,7 +72,7 @@ local function get_git_status(line_number)
 
 	local git_root = vim.b.git_root
 	if not git_root then
-		if o.filetype == 'dirvish' or o.filetype == 'netrw' then
+		if o.filetype == 'dirvish' then
 			set_icon()
 		end
 		return

@@ -16,5 +16,5 @@ function! s:dirvish_git_init() abort
 	lua require('dirvish-git').init()
 endfunction
 
-autocmd FileType dirvish,netrw call s:dirvish_git_init()
+autocmd FileType dirvish call s:dirvish_git_init()
 
