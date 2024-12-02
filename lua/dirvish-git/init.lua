@@ -62,7 +62,7 @@ local function get_git_status(line_number)
 				virt_text_pos = 'inline',
 			})
 		else
-			fn.propadd(line_number, 1, vim.dict({
+			fn.prop_add(line_number, 1, vim.dict({
 				text = get_icon(path),
 			}))
 		end
