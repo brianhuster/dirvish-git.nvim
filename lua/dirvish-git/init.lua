@@ -1,8 +1,9 @@
 local utils = require('dirvish-git.utils')
 local bool = utils.bool
 local fn = vim.fn
+---@type boolean
+local isnvim = bool(fn.has('nvim'))
 local api = vim.api
-local ns_id = api.nvim_create_namespace('dirvish_git')
 local o = vim.o
 
 local M = {}
@@ -10,8 +11,6 @@ M.config = {}
 
 M.cache = {}
 
----@type boolean
-local isnvim = bool(fn.has('nvim'))
 
 ---@class dict
 
@@ -21,10 +20,8 @@ local sep = bool(fn.exists('+shellslash')) and not bool(vim.o.shellslash) and '\
 ---@param current_dir string
 ---@return string|nil
 local function get_git_root(current_dir)
-	local result = vim.system({ 'git', '-C', current_dir, 'rev-parse', '--show-toplevel' }, { text = true }):wait()
-	local root = result.stdout
+	local root = utils.read(('git -C %s rev-parse --show-toplevel'):format(current_dir))
 	if root then
-		root = vim.trim(root)
 		if fn.isdirectory(root) == 1 then
 			return root
 		end
@@ -51,15 +48,26 @@ local function translate_git_status(us, them)
 	end
 end
 
+local function get_icon(path)
+	return M.cache[path] or (path:sub(-1) == sep and M.config.git_icons.directory or M.config.git_icons.file)
+end
+
 ---@param line_number number : 1-indexed line number
 local function get_git_status(line_number)
 	local path = fn.getline(line_number)
 
 	local function set_icon()
-		api.nvim_buf_set_extmark(0, ns_id, line_number - 1, 0, {
-			virt_text = { { M.cache[path] or (path:sub(-1) == sep and M.config.git_icons.directory or M.config.git_icons.file), 'Comment' } },
-			virt_text_pos = 'inline',
-		})
+		if isnvim then
+			local ns_id = api.nvim_create_namespace('dirvish_git')
+			api.nvim_buf_set_extmark(0, ns_id, line_number - 1, 0, {
+				virt_text = { { get_icon(path), 'Comment' } },
+				virt_text_pos = 'inline',
+			})
+		else
+			fn.propadd(line_number, 1, vim.dict({
+				text = get_icon(path),
+			}))
+		end
 	end
 
 	local git_root = vim.b.git_root

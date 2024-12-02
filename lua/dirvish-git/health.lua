@@ -1,12 +1,23 @@
 local M = {}
 
 local bool = require('dirvish-git.utils').bool
+local utils = require('dirvish-git.utils')
 
-M.min_nvim = '0.5.0'
+local plugin_path = utils.get_plugin_path()
+
+local sep = bool(vim.o.shellslash) and '/' or '\\'
+
+local packspecpath = plugin_path .. sep .. 'pkg.json'
+local spec = vim.json.decode(utils.read(packspecpath, { type = 'file' }))
+M.min_nvim = spec.engines.nvim:sub(2)
+M.min_vim = spec.engines.vim:sub(2)
 
 M.compatible = function()
 	local compatible = false
 	if bool(vim.fn.has('nvim-' .. M.min_nvim)) then
+		compatible = true
+	end
+	if bool(vim.fn.has('patch-' .. M.min_vim)) and bool(vim.fn.has('lua')) then
 		compatible = true
 	end
 	return compatible

@@ -1,13 +1,11 @@
 {
 	"name": "dirvish-git.nvim",
 	"engines": {
-		"nvim": "^0.5.0"
+		"nvim": "^0.5.0",
+		"vim": "^8.2.3288"
 	},
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/brianhuster/dirvish-git.nvim"
-	},
-	"dependencies": {
-		"https://github.com/justinmk/vim-dirvish": "main"
 	}
 }
