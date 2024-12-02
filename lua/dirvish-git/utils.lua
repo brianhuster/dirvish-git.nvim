@@ -7,14 +7,14 @@ function utils.bool(any)
 	return any and any ~= 0
 end
 
+if not vim.eval then
+	vim.eval = vim.api.nvim_eval
+end
+
 ---@type string
 utils.sep = vim.eval('&shellslash') == 1 and '/' or '\\'
 if vim.fn.has('win32') == 0 then
 	utils.sep = '/'
-end
-
-if not vim.eval then
-	vim.eval = vim.api.nvim_eval
 end
 
 if not vim.json then
