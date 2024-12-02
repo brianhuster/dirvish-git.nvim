@@ -7,7 +7,23 @@ local api = vim.api
 local o = vim.o
 
 local M = {}
-M.config = {}
+
+local default_config = {
+	git_icons = {
+		modified = '🖋️',
+		staged = '✅',
+		untracked = '❓',
+		renamed = '🔄',
+		unmerged = '❌',
+		ignored = '🙈',
+		file = '📄',
+		directory = '📂',
+	},
+}
+
+if not M.config then
+	M.config = default_config
+end
 
 M.cache = {}
 
@@ -109,27 +125,9 @@ function M.init()
 end
 
 --- Set up the plugin
----@param opts table|dict: The options to set up the plugin. Being a table if you use Nvim, and a dictionary if you use Vim.
+---@param opts table: The options to set up the plugin. Being a table if you use Nvim, and a dictionary if you use Vim.
 function M.setup(opts)
-	local git_icons = {
-		modified = '🖋️',
-		staged = '✅',
-		untracked = '❓',
-		renamed = '🔄',
-		unmerged = '❌',
-		ignored = '🙈',
-		file = '📄',
-		directory = '📂',
-	}
-	if not isnvim then
-		git_icons = vim.dict(git_icons)
-	end
-	local default_opts = {
-		git_icons = git_icons,
-	}
-	if isnvim then
-		M.config = vim.tbl_deep_extend('force', default_opts, opts or {})
-	end
+	M.config = vim.tbl_deep_extend('force', default_config, opts or {})
 end
 
 return M
