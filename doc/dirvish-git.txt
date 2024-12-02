@@ -8,31 +8,29 @@ Table of Contents                              *dirvish-git-table-of-contents*
   - mini.deps                             |dirvish-git-installation-mini.deps|
 3. Configuration                                   |dirvish-git-configuration|
   - Lua                                        |dirvish-git-configuration-lua|
-  - Legacy Vim script            |dirvish-git-configuration-legacy-vim-script|
+  - Vim script                          |dirvish-git-configuration-vim-script|
 4. Contributing                                     |dirvish-git-contributing|
 
 ==============================================================================
 1. Introduction                                     *dirvish-git-introduction*
 
 dirvish-git.nvim <https://github.com/brianhuster/vim-dirvish-git.lua> is a
-plugin for Neovim that provides Gitsigns integration for vim-dirvish
-<https://github.com/justinmk/vim-dirvish> by Justin M. Keyes. Inspired by
-vim-dirvish-git <https://github.com/kristijanhusak/vim-dirvish-git> by
-Kristijan Husak.
+plugin for Neovim that provides Gitsigns integration for the builtin Netrw file
+explorer of Vim and vim-dirvish <https://github.com/justinmk/vim-dirvish> by
+Justin M. Keyes. Inspired by vim-dirvish-git
+<https://github.com/kristijanhusak/vim-dirvish-git> by Kristijan Husak.
 
 
 ==============================================================================
 2. Installation                                     *dirvish-git-installation*
 
-This plugin requires : - Neovim 0.5.0+. - Dependencies: vim-dirvish
-<https://github.com/justinmk/vim-dirvish>
+This plugin requires : - Neovim 0.5.0+.
 
 Use your favorite plugin manager. Below are some examples :
 
 - vim-plug <https://github.com/junegunn/vim-plug>:
 
 >vim
-    Plug 'justinmk/vim-dirvish'
     Plug 'brianhuster/dirvish-git.nvim'
 <
 
@@ -41,7 +39,6 @@ Use your favorite plugin manager. Below are some examples :
 >lua
     {
         "brianhuster/dirvish-git.nvim",
-        --- No need to specify dependencies as lazy.nvim supports loading dependencies information from pkg.json
     }
 <
 
@@ -51,9 +48,6 @@ MINI.DEPS                                 *dirvish-git-installation-mini.deps*
 >lua
     MiniDeps.add({
         source = 'brianhuster/dirvish-git.nvim',
-        depends = {
-            'justinmk/vim-dirvish',
-        },
     })
 <
 
@@ -82,22 +76,23 @@ LUA                                            *dirvish-git-configuration-lua*
 <
 
 
-LEGACY VIM SCRIPT                *dirvish-git-configuration-legacy-vim-script*
+VIM SCRIPT                              *dirvish-git-configuration-vim-script*
 
 >vim
-    let s:dirvish_git_lua_config = {
-        \ 'git_icons': {
-        \     'modified': '🖋️',
-        \     'staged': '✅',
-        \     'renamed': '➜',
-        \     'unmerged': '❌',
-        \     'ignored': '🙈',
-        \     'untracked': '❓',
-        \     'file': '📄',
-        \     'directory': '📁',
-        \ }
-    \ }
-    call luaeval('require("dirvish-git").setup(_A)', s:dirvish_git_lua_config)
+    lua << EOF
+    require('dirvish-git').setup({
+        git_icons = {
+            modified = '🖋️',
+            staged = '✅',
+            renamed = '➜',
+            unmerged = '❌',
+            ignored = '🙈',
+            untracked = '❓',
+            file = '📄',
+            directory = '📁',
+        },
+    })
+    EOF
 <
 
 
