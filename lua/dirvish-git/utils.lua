@@ -2,6 +2,12 @@ local utils = {}
 
 local isnvim = vim.fn.has('nvim') == 1
 
+---@type string
+utils.sep = utils.bool(vim.o.shellslash) and '/' or '\\'
+if vim.fn.has('win32') == 0 then
+	utils.sep = '/'
+end
+
 function utils.bool(any)
 	return any and any ~= 0
 end

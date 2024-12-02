@@ -5,33 +5,13 @@ local fn = vim.fn
 local isnvim = bool(fn.has('nvim'))
 local api = vim.api
 local o = vim.o
+local g = vim.g
 
 local M = {}
-
-local default_config = {
-	git_icons = {
-		modified = '🖋️',
-		staged = '✅',
-		untracked = '❓',
-		renamed = '🔄',
-		unmerged = '❌',
-		ignored = '🙈',
-		file = '📄',
-		directory = '📂',
-	},
-}
-
-if not M.config then
-	M.config = default_config
-end
-
 M.cache = {}
 
-
----@class dict
-
 ---@type string
-local sep = bool(fn.exists('+shellslash')) and not bool(vim.o.shellslash) and '\\' or '/'
+local sep = utils.sep
 
 ---@param current_dir string
 ---@return string|nil
@@ -46,6 +26,7 @@ end
 
 ---@param us string
 ---@param them string
+---@return string
 local function translate_git_status(us, them)
 	if us == '?' and them == '?' then
 		return 'untracked'
@@ -64,8 +45,10 @@ local function translate_git_status(us, them)
 	end
 end
 
+---@param path string
+---@return string
 local function get_icon(path)
-	return M.cache[path] or (path:sub(-1) == sep and M.config.git_icons.directory or M.config.git_icons.file)
+	return M.cache[path] or (path:sub(-1) == sep and g.dirvish_git_icons.directory or g.dirvish_git_icons.file)
 end
 
 ---@param line_number number : 1-indexed line number
@@ -101,8 +84,8 @@ local function get_git_status(line_number)
 		if #data > 0 then
 			local us, them = data[1], data[2]
 			local status = translate_git_status(us, them)
-			if M.config.git_icons then
-				M.cache[path] = M.config.git_icons[status]
+			if g.dirvish_git_icons then
+				M.cache[path] = g.dirvish_git_icons[status]
 			end
 		else
 			M.cache[path] = nil
@@ -124,10 +107,9 @@ function M.init()
 	end
 end
 
---- Set up the plugin
----@param opts table: The options to set up the plugin. Being a table if you use Nvim, and a dictionary if you use Vim.
-function M.setup(opts)
-	M.config = vim.tbl_deep_extend('force', default_config, opts or {})
+---@deprecated
+function M.setup()
+	print("`require('dirvish-git').setup()` is deprecated. Use `g:dirvish_git_icons` instead")
 end
 
 return M

@@ -41,37 +41,31 @@ Note: you can remove any of the icons by setting them to a space.
 ## Lua
 
 ```lua
-require('dirvish-git').setup({
-    git_icons = {
-        modified = '🖋️',
-        staged = '✅',
-        renamed = '➜',
-        unmerged = '❌',
-        ignored = '🙈',
-        untracked = '❓',
-        file = '📄',
-        directory = '📁',
-	},
-})
+vim.g.dirvish_git_icons = {
+    modified = '🖋️',
+    staged = '✅',
+    renamed = '➜',
+    unmerged = '❌',
+    ignored = '🙈',
+    untracked = '❓',
+    file = '📄',
+    directory = '📁',
+}
 ```
 
 ## Vim script
 
 ```vim
-lua << EOF
-require('dirvish-git').setup({
-    git_icons = {
-        modified = '🖋️',
-        staged = '✅',
-        renamed = '➜',
-        unmerged = '❌',
-        ignored = '🙈',
-        untracked = '❓',
-        file = '📄',
-        directory = '📁',
-    },
-})
-EOF
+g:dirvish_git_icons = {
+    \ 'modified': '🖋️',
+    \ 'staged': '✅',
+    \ 'renamed': '➜',
+    \ 'unmerged': '❌',
+    \ 'ignored': '🙈',
+    \ 'untracked': '❓',
+    \ 'file': '📄',
+    \ 'directory': '📁',
+    \ }
 ```
 
 # Contributing
