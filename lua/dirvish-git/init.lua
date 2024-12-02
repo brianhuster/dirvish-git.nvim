@@ -89,7 +89,7 @@ local function get_git_status(line_number)
 		else
 			M.cache[path] = nil
 		end
-		if vim.eval('&filetype') then
+		if vim.eval('&filetype') ~= 'dirvish' then
 			return
 		end
 		set_icon()
