@@ -3,7 +3,7 @@
 
 # Installation
 This plugin requires :
-- Neovim 0.5.0+.
+- Editor: Vim 8.2.3288+ with `+lua` support or Neovim 0.5.0+
 
 Use your favorite plugin manager. Below are some examples : 
 

@@ -7,6 +7,7 @@ function utils.bool(any)
 end
 
 if not vim.o then
+	vim.o = {}
 	setmetatable(vim.o, {
 		__index = function(_, key)
 			local expr = '&' .. key
