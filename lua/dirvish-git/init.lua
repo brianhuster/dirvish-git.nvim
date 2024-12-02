@@ -1,30 +1,22 @@
 local utils = require('dirvish-git.utils')
 local bool = utils.bool
 local fn = vim.fn
-local api = vim.api
-local ns_id = api.nvim_create_namespace('dirvish_git')
-local o = vim.o
-
-local M = {}
-M.config = {}
-
-M.cache = {}
-
 ---@type boolean
 local isnvim = bool(fn.has('nvim'))
+local api = vim.api
+local g = vim.g
 
----@class dict
+local M = {}
+M.cache = {}
 
 ---@type string
-local sep = bool(fn.exists('+shellslash')) and not bool(vim.o.shellslash) and '\\' or '/'
+local sep = utils.sep
 
 ---@param current_dir string
 ---@return string|nil
 local function get_git_root(current_dir)
-	local result = vim.system({ 'git', '-C', current_dir, 'rev-parse', '--show-toplevel' }, { text = true }):wait()
-	local root = result.stdout
+	local root = utils.read(('git -C %s rev-parse --show-toplevel'):format(current_dir))
 	if root then
-		root = vim.trim(root)
 		if fn.isdirectory(root) == 1 then
 			return root
 		end
@@ -33,6 +25,7 @@ end
 
 ---@param us string
 ---@param them string
+---@return string
 local function translate_git_status(us, them)
 	if us == '?' and them == '?' then
 		return 'untracked'
@@ -51,20 +44,33 @@ local function translate_git_status(us, them)
 	end
 end
 
+---@param path string
+---@return string
+local function get_icon(path)
+	return M.cache[path] or (path:sub(-1) == sep and g.dirvish_git_icons.directory or g.dirvish_git_icons.file)
+end
+
 ---@param line_number number : 1-indexed line number
 local function get_git_status(line_number)
 	local path = fn.getline(line_number)
 
 	local function set_icon()
-		api.nvim_buf_set_extmark(0, ns_id, line_number - 1, 0, {
-			virt_text = { { M.cache[path] or (path:sub(-1) == sep and M.config.git_icons.directory or M.config.git_icons.file), 'Comment' } },
-			virt_text_pos = 'inline',
-		})
+		if isnvim then
+			local ns_id = api.nvim_create_namespace('dirvish_git')
+			api.nvim_buf_set_extmark(0, ns_id, line_number - 1, 0, {
+				virt_text = { { get_icon(path), 'Comment' } },
+				virt_text_pos = 'inline',
+			})
+		else
+			fn.propadd(line_number, 1, vim.dict({
+				text = get_icon(path),
+			}))
+		end
 	end
 
 	local git_root = vim.b.git_root
 	if not git_root then
-		if o.filetype == 'dirvish' or o.filetype == 'netrw' then
+		if vim.eval('&filetype') == 'dirvish' then
 			set_icon()
 		end
 		return
@@ -77,13 +83,13 @@ local function get_git_status(line_number)
 		if #data > 0 then
 			local us, them = data[1], data[2]
 			local status = translate_git_status(us, them)
-			if M.config.git_icons then
-				M.cache[path] = M.config.git_icons[status]
+			if g.dirvish_git_icons then
+				M.cache[path] = g.dirvish_git_icons[status]
 			end
 		else
 			M.cache[path] = nil
 		end
-		if o.filetype ~= 'dirvish' and o.filetype ~= 'netrw' then
+		if vim.eval('&filetype') ~= 'dirvish' then
 			return
 		end
 		set_icon()
@@ -100,28 +106,9 @@ function M.init()
 	end
 end
 
---- Set up the plugin
----@param opts table|dict: The options to set up the plugin. Being a table if you use Nvim, and a dictionary if you use Vim.
-function M.setup(opts)
-	local git_icons = {
-		modified = '🖋️',
-		staged = '✅',
-		untracked = '❓',
-		renamed = '🔄',
-		unmerged = '❌',
-		ignored = '🙈',
-		file = '📄',
-		directory = '📂',
-	}
-	if not isnvim then
-		git_icons = vim.dict(git_icons)
-	end
-	local default_opts = {
-		git_icons = git_icons,
-	}
-	if isnvim then
-		M.config = vim.tbl_deep_extend('force', default_opts, opts or {})
-	end
+---@deprecated
+function M.setup()
+	print("`require('dirvish-git').setup()` is deprecated. Use `g:dirvish_git_icons` instead")
 end
 
 return M
