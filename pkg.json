@@ -1,8 +1,8 @@
 {
 	"name": "dirvish-git.nvim",
 	"engines": {
-		"nvim": "^0.5.0",
-		"vim": "^8.2.3288"
+		"nvim": "^0.7.0",
+		"vim": "^9.0.0185"
 	},
 	"repository": {
 		"type": "git",
