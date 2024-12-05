@@ -1,4 +1,3 @@
-
 local utils = require('dirvish-git.utils')
 local bool = utils.bool
 local fn = vim.fn
@@ -22,7 +21,8 @@ local sep = utils.sep
 ---@param current_dir string
 ---@return string|nil
 local function get_git_root(current_dir)
-	local root = utils.read(('git -C %s rev-parse --show-toplevel'):format(current_dir))
+	local to = fn.has('win32') and "2>NUL" or "2>/dev/null"
+	local root = utils.read(('git -C %s rev-parse --show-toplevel %s'):format(current_dir, to))
 	if root then
 		if fn.isdirectory(root) == 1 then
 			return root
